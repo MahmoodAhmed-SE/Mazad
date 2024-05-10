@@ -1,11 +1,11 @@
 <?php
+	$info[] = array();
 	session_start();
 
 	if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
 		header('Location: /pages/LoginPage.php');
 	}
 	else {
-		$info[] = array();
 
 		$id = $_SESSION['user_id'];
 		$role = $_SESSION['role'];

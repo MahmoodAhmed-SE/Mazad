@@ -1,3 +1,25 @@
+<?php
+	session_start();
+	$products = NULL;
+	
+	if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
+		header('Location: /pages/LoginPage.php');
+	}
+	else {
+
+		$id = $_SESSION['user_id'];
+		$role = $_SESSION['role'];
+
+		$pdo = require('../mysql_db_connection.php');
+
+		$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id;');
+		$products_query->bindParam(':seller_id', $id);
+		$products_query->execute();
+		$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -41,22 +63,20 @@
 		<td class="auto-style2"><strong>Product starting Date</strong></td>
 		<td class="auto-style2"><strong>Product ending date</strong></td>
 	</tr>
-	<tr>
-		<td class="auto-style3">Public</td>
-		<td class="auto-style3">Calculator</td>
-		<td class="auto-style3">...</td>
-		<td class="auto-style3">2.3</td>
-		<td class="auto-style3">01-04-2024</td>
-		<td class="auto-style3">5</td>
-	</tr>
-	<tr>
-		<td class="auto-style3">Closed</td>
-		<td class="auto-style3">Car</td>
-		<td class="auto-style3">...</td>
-		<td class="auto-style3">400</td>
-		<td class="auto-style3">01-04-2024</td>
-		<td class="auto-style3">6</td>
-	</tr>
+	<?php
+	foreach($products as $product) {
+		echo '<tr>';
+		echo 	'<td class="auto-style3">' . $product['product_status'] . '</td>';
+		echo 	'<td class="auto-style3">' . $product['product_name'] . '</td>';
+		echo 	'<td class="auto-style3">' . $product['product_description'] . '</td>';
+		echo 	'<td class="auto-style3">' . $product['product_minimum_bidding_price'] . '</td>';
+		echo 	'<td class="auto-style3">' . $product['product_start_date'] . '</td>';
+		echo 	'<td class="auto-style3">' . $product['product_last_date'] . '</td>';
+		echo '</tr>';
+	}
+
+	?>
+	
 	</table>
 
 <p>&nbsp;</p>

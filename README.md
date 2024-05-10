@@ -18,3 +18,4 @@ Authentication session:
 # change password page
 # updating product page
 # handle updating product
+# view list of bidders 
