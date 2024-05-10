@@ -6,9 +6,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 	$id = isset($_SESSION['user_id']);
 	$role = isset($_SESSION['role']);
 	
-	$password = $_POST['password'];
-	$new_password = $_POST['new_password'];
-	
 	require('../services/getUser.php');
 
 	$user = getUser($pdo, $id, $role);
