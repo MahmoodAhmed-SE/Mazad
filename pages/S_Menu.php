@@ -64,7 +64,7 @@ else {
 		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, <?php echo ucfirst($user['seller_name']); ?>! </strong>
 		</td>
 		<td class="auto-style5" style="width: 59px"><strong><br />
-		<span class="auto-style6">LOGOUT</span><br />
+		<span class="auto-style6"><a href='../handle/handleLogout.php'>LOGOUT</a></span><br />
 		</strong></td>
 	</tr>
 </table>
