@@ -91,13 +91,13 @@ if(isset($_POST['submitButton'])) {
 
 			switch ($role) {
 				case 'seller':
-					header('Location: /Mazad/pages/S_Menu.php');
+					header('Location: /Mazad/pages/seller/S_Menu.php');
 				break;
 				case 'bidder':
-					header('Location: /Mazad/pages/B_Menu.php');
+					header('Location: /Mazad/pages/bidder/B_Menu.php');
 				break;
 				case 'admin':
-					header('Location: /Mazad/pages/A_Menu.php');
+					header('Location: /Mazad/pages/administrator/A_Menu.php');
 				break;
 				default: break;
 			}

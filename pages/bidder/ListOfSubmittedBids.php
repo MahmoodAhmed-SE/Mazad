@@ -1,3 +1,29 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+	$pdo = require('../../mysql_db_connection.php');
+	$id = $_SESSION['user_id'];
+	$role = $_SESSION['role'];
+
+	require('../../services/getUser.php');
+	
+	$user = getUser($pdo, $id, $role);
+
+	if ($user === false) {
+		header('Location: /Mazad/pages/LoginPage.php');
+	}
+
+}
+else {
+	header('Location: /Mazad/pages/LoginPage.php');
+}
+
+
+?>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 

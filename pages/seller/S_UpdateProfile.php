@@ -3,46 +3,13 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../mysql_db_connection.php');
-
-	$role = $_SESSION['role'];
+	$pdo = require('../../mysql_db_connection.php');
 	$id = $_SESSION['user_id'];
+	$role = $_SESSION['role'];
 
-	$query = NULL;
-
-	switch ($role) {
-		case 'admin':
-			//Preparing SELECT statement
-			$query = $pdo->prepare("SELECT * FROM Administrators WHERE administrator_id = :id;");
-			
-			// Binding parameters
-			$query->bindParam(':id', $id); 
-			break;
-			
-		case 'seller':
-			//Preparing SELECT statement
-			$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_id = :id AND seller_status=1;");
-			
-			// Binding parameters
-			$query->bindParam(':id', $id);			    
-			break;
-		case 'bidder':
-			//Preparing SELECT statement
-			$query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_id = :id AND bidder_status=1;");
-			
-			// Binding parameters
-			$query->bindParam(':id', $id);			    
-			break;
-			
-		default:
-			break;  
-	}
-
-
-	$query->execute();
+	require('../../services/getUser.php');
 	
-	$user = $query->fetch(PDO::FETCH_ASSOC);
-
+	$user = getUser($pdo, $id, $role);
 
 	if ($user === false) {
 		header('Location: /Mazad/pages/LoginPage.php');
@@ -52,8 +19,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 else {
 	header('Location: /Mazad/pages/LoginPage.php');
 }
-
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -87,25 +52,15 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="../handle/handleUpdateSellerProfile.php" method="post" style="width: 688px">
+<form action="../../handle/handleUpdateSellerProfile.php" method="post" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2"><strong>Update Seller Registration</strong></td>
 		</tr>
 		<tr>
-			<td class="auto-style3" style="width: 271px">Seller ID:</td>
-			<td class="auto-style1">
-			<input name="Text8" readonly="readonly" style="width: 142px" type="text" readonly value="<?php echo $user['seller_id']; ?>" /></td>
-		</tr>
-		<tr>
 			<td class="auto-style3" style="width: 271px">Seller Name:</td>
 			<td class="auto-style1">
 			<input name="seller_name" style="width: 246px" type="text" value="<?php echo $user['seller_name']; ?>" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Password:</td>
-			<td class="auto-style1">
-			<input name="seller_password" style="width: 245px" type="password" value="" />&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="height: 64px; width: 271px">Email 

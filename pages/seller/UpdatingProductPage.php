@@ -2,12 +2,12 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../mysql_db_connection.php');
+	$pdo = require('../../mysql_db_connection.php');
 
 	$id = $_SESSION['user_id'];
 	$role = $_SESSION['role'];
 
-	require('../services/getUser.php');
+	require('../../services/getUser.php');
 
 	$user = getUser($pdo, $id, $role);
 
@@ -65,7 +65,7 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="../handle/handleUpdatingProduct.php" method="post" style="width: 688px">
+<form action="../../handle/handleUpdatingProduct.php" method="post" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2">Publish a product</td>
@@ -121,7 +121,7 @@ else {
 	</table>
 </form>
 
-<p class="auto-style5"><a href="../pages/S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="S_Menu.php">Back To Menu</a></p>
 </center>
 </body>
 

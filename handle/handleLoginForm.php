@@ -63,19 +63,19 @@ if (isset($_POST['submitButton'])) {
 					$_SESSION['user_id'] = $user['seller_id'];
 					$_SESSION['role'] = $role;
 
-					header('Location: /Mazad/pages/S_Menu.php');
+					header('Location: /Mazad/pages/seller/S_Menu.php');
 				break;
 				case 'bidder': 
 					$_SESSION['user_id'] = $user['bidder_id'];
 					$_SESSION['role'] = $role;
 
-					header('Location: /Mazad/pages/B_Menu.php');
+					header('Location: /Mazad/pages/bidder/B_Menu.php');
 				break;
 				case 'admin': 
 					$_SESSION['user_id'] = $user['administrator_id'];
 					$_SESSION['role'] = $role;
 
-					header('Location: /Mazad/pages/A_Menu.php');
+					header('Location: /Mazad/pages/administrator/A_Menu.php');
 				break;
 				default: break;
 			}

@@ -31,8 +31,8 @@
 <table class="auto-style3" style="width: 100%">
 	<tr>
 		<td class="auto-style2"><a href="../assets/Mazad.png">HOME</a></td>
-		<td class="auto-style2"><a href="../pages/LoginPage.php">LOGIN</a></td>
-		<td class="auto-style2"><a href="../pages/Registration.php">REGISTRATION</a></td>
+		<td class="auto-style2"><a href="LoginPage.php">LOGIN</a></td>
+		<td class="auto-style2"><a href="Registration.php">REGISTRATION</a></td>
 		<td class="auto-style2">FAQs</td>
 	</tr>
 </table>

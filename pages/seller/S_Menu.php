@@ -3,11 +3,11 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../mysql_db_connection.php');
+	$pdo = require('../../mysql_db_connection.php');
 	$id = $_SESSION['user_id'];
 	$role = $_SESSION['role'];
 
-	require('../services/getUser.php');
+	require('../../services/getUser.php');
 	
 	$user = getUser($pdo, $id, $role);
 
@@ -64,44 +64,44 @@ else {
 		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, <?php echo ucfirst($user['seller_name']); ?>! </strong>
 		</td>
 		<td class="auto-style5" style="width: 59px"><strong><br />
-		<span class="auto-style6"><a href='../handle/handleLogout.php'>LOGOUT</a></span><br />
+		<span class="auto-style6"><a href='../../handle/handleLogout.php'>LOGOUT</a></span><br />
 		</strong></td>
 	</tr>
 </table>
 <table class="auto-style3" style="width: 100%">
 	<tr>
 		<td class="auto-style2" style="width: 376px"><strong>
-		<img alt="" height="177" src="../assets/UpdateProfile.png" width="177" /><br class="auto-style1" />
+		<img alt="" height="177" src="../../assets/UpdateProfile.png" width="177" /><br class="auto-style1" />
 		</strong><span class="auto-style1"><strong>
 		<a href="S_UpdateProfile.php">Update profile</a></strong></span></td>
 		<td class="auto-style2"><strong>
-		<img alt="" height="177" src="../assets/AddProduct.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1"><strong><a href="../pages/addProductPage.php">Add product for auction</a></strong></span></td>
+		<img alt="" height="177" src="../../assets/AddProduct.png" width="177" /><br class="auto-style1" />
+		</strong><span class="auto-style1"><strong><a href="addProductPage.php">Add product for auction</a></strong></span></td>
 	</tr>
 	<tr>
 		<td class="auto-style2" style="width: 376px"><strong>
-		<img alt="" height="177" src="../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1"><strong><a href="../pages/ChangePassword.php">Change 
+		<img alt="" height="177" src="../../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
+		</strong><span class="auto-style1"><strong><a href="../ChangePassword.php">Change 
 		password</a></strong></span></td>
 		<td class="auto-style2"><strong>
-		<img alt="" class="auto-style1" height="200" src="../assets/UpdateProduct.png" width="200" /><br class="auto-style1" />
+		<img alt="" class="auto-style1" height="200" src="../../assets/UpdateProduct.png" width="200" /><br class="auto-style1" />
 		</strong><span class="auto-style1"><strong>
-		<a href="../pages/UpdatingProductPage.php">Update product for auction</a></strong></span></td>
+		<a href="UpdatingProductPage.php">Update product for auction</a></strong></span></td>
 	</tr>
 	<tr>
 		<td class="auto-style2" style="height: 20px; width: 376px;"><strong>
-		<img alt="" height="177" src="../assets/bidders.png" width="177" /><br class="auto-style1" />
+		<img alt="" height="177" src="../../assets/bidders.png" width="177" /><br class="auto-style1" />
 		</strong><span class="auto-style1"><strong>
-		<a href="../pages/ViewListOfBidders.php">View list of bidders</a></strong></span></td>
+		<a href="ViewListOfBidders.php">View list of bidders</a></strong></span></td>
 		<td class="auto-style2" style="height: 20px"><span class="auto-style1"><strong>
-		<img alt="" height="177" src="../assets/ViewList.png" width="177" /><br />
-		<a href="../pages/ListOfProducts.php">View list of product for 
+		<img alt="" height="177" src="../../assets/ViewList.png" width="177" /><br />
+		<a href="ListOfSellerProducts.php">View list of product for 
 		auction</a></strong></span></td>
 	</tr>
 	<tr>
 		<td class="auto-style4" style="height: 20px" colspan="2"><strong>
-		<img alt="" height="177" src="../assets/close.png" width="177" /><br />
-		<a href="../pages/ClosingProductPage.php">Close Products</a></strong></td>
+		<img alt="" height="177" src="../../assets/close.png" width="177" /><br />
+		<a href="ClosingProductPage.php">Close Products</a></strong></td>
 	</tr>
 </table>
 <p class="auto-style1">&nbsp;</p>

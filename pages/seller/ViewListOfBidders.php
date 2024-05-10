@@ -10,7 +10,7 @@
 		$id = $_SESSION['user_id'];
 		$role = $_SESSION['role'];
 
-		$pdo = require('../mysql_db_connection.php');
+		$pdo = require('../../mysql_db_connection.php');
 
 		$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id;');
 		$products_query->bindParam(':seller_id', $id);
@@ -98,7 +98,7 @@
 
 <p>&nbsp;</p>
 
-<p class="auto-style5"><a href="../pages/S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="S_Menu.php">Back To Menu</a></p>
 </center>
 </body>
 

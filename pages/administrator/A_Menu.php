@@ -1,3 +1,28 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+	$pdo = require('../../mysql_db_connection.php');
+	$id = $_SESSION['user_id'];
+	$role = $_SESSION['role'];
+
+	require('../../services/getUser.php');
+	
+	$user = getUser($pdo, $id, $role);
+
+	if ($user === false) {
+		header('Location: /Mazad/pages/LoginPage.php');
+	}
+
+}
+else {
+	header('Location: /Mazad/pages/LoginPage.php');
+}
+
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -35,10 +60,10 @@
 
 <table style="width: 100%">
 	<tr>
-		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, Khalid ! </strong>
+		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, <?php echo ucfirst($user['administrator_name']); ?>! </strong>
 		</td>
 		<td class="auto-style5" style="width: 59px"><strong><br />
-		<span class="auto-style6">LOGOUT</span><br />
+		<span class="auto-style6"><a href='../../handle/handleLogout.php'>LOGOUT</a></span><br />
 		</strong></td>
 	</tr>
 </table>
@@ -46,18 +71,18 @@
 	<tr>
 		<td class="auto-style2"><strong>
 		<br class="auto-style1" />
-		<img alt="" height="177" src="../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
+		<img alt="" height="177" src="../../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
 		<span class="auto-style1">Change 
 		password</span></strong></td>
 	</tr>
 	<tr>
 		<td class="auto-style7"><strong>
-		<img alt="" height="177" src="../assets/ViewList.png" width="177" /><br />
+		<img alt="" height="177" src="../../assets/ViewList.png" width="177" /><br />
 		List of Sellers</strong></td>
 	</tr>
 	<tr>
 		<td class="auto-style2" style="height: 20px; "><strong>
-		<img alt="" height="177" src="../assets/bidders.png" width="177" /><br class="auto-style1" />
+		<img alt="" height="177" src="../../assets/bidders.png" width="177" /><br class="auto-style1" />
 		</strong><span class="auto-style1">
 		<strong>List of Bidders</strong></span></td>
 	</tr>

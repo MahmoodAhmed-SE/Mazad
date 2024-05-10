@@ -1,3 +1,28 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+	$pdo = require('../../mysql_db_connection.php');
+	$id = $_SESSION['user_id'];
+	$role = $_SESSION['role'];
+
+	require('../../services/getUser.php');
+	
+	$user = getUser($pdo, $id, $role);
+
+	if ($user === false) {
+		header('Location: /Mazad/pages/LoginPage.php');
+	}
+
+}
+else {
+	header('Location: /Mazad/pages/LoginPage.php');
+}
+
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -35,41 +60,31 @@
 			<td class="auto-style4" colspan="2"><strong>Update Bidder Registration</strong></td>
 		</tr>
 		<tr>
-			<td class="auto-style3" style="width: 271px">Bidder ID:</td>
-			<td class="auto-style1">
-			<input name="Text8" readonly="readonly" style="width: 142px" type="text" value="1" /></td>
-		</tr>
-		<tr>
 			<td class="auto-style3" style="width: 271px">Bidder Name:</td>
 			<td class="auto-style1">
-			<input name="Text1" style="width: 246px" type="text" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Password:</td>
-			<td class="auto-style1">
-			<input name="Text3" style="width: 245px" type="text" value="*****" />&nbsp;</td>
+			<input name="Text1" style="width: 246px" type="text" value="<?php $user['bidder_name'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="height: 64px; width: 271px">Email 
 			Address:</td>
 			<td class="auto-style1">
-			<input name="Text4" style="width: 243px" type="text" />&nbsp;</td>
+			<input name="Text4" style="width: 243px" type="text" value="<?php $user['bidder_email'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Phone Number:</td>
 			<td class="auto-style1">
-			<input name="Text5" style="width: 242px" type="text" />&nbsp;</td>
+			<input name="Text5" style="width: 242px" type="text" value="<?php $user['bidder_phone'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Resident ID Number:</td>
 			<td class="auto-style1">
-			<input name="Text6" style="width: 172px" type="text" />&nbsp;</td>
+			<input name="Text6" style="width: 172px" type="text" value="<?php $user['bidder_resident_id_number'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Resident Card <em>
 			(Please upload)</em>:</td>
 			<td class="auto-style1">
-			<input name="File1" style="width: 305px" type="file" /></td>
+			<input name="File1" style="width: 305px" type="file" value="<?php $user['bidder_resident_card_image'] ?>"/></td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Security Question:</td>
@@ -82,7 +97,7 @@
 		<tr>
 			<td class="auto-style3" style="width: 271px">Security Answer:</td>
 			<td class="auto-style1">
-			<input name="Text7" type="text" style="width: 225px" /></td>
+			<input name="Text7" type="text" style="width: 225px" value="<?php $user['bidder_security_answer'] ?>"/></td>
 		</tr>
 		<tr>
 			<td class="auto-style1" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
