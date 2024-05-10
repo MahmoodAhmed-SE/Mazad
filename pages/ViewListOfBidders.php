@@ -1,3 +1,42 @@
+<?php
+	session_start();
+
+	if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
+		header('Location: /pages/LoginPage.php');
+	}
+	else {
+		$info[] = array();
+
+		$id = $_SESSION['user_id'];
+		$role = $_SESSION['role'];
+
+		$pdo = require('../mysql_db_connection.php');
+
+		$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id;');
+		$products_query->bindParam(':seller_id', $id);
+		$products_query->execute();
+		$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+
+
+		foreach ($products as $product) {
+			$bids_query = $pdo->prepare('SELECT * FROM Bids WHERE product_id = :product_id;');
+			$bids_query->bindParam(':product_id', $product['product_id']);
+			$bids_query->execute();
+			$bids = $bids_query->fetchAll(PDO::FETCH_ASSOC);
+
+			foreach ($bids as $bid) {
+				$bids_query = $pdo->prepare('SELECT * FROM Bidders WHERE bidder_id = :bidder_id;');
+				$bids_query->bindParam(':bidder_id', $bid['bidder_id']);
+				$bids_query->execute();
+				$bidder = $bids_query->fetch(PDO::FETCH_ASSOC);
+
+				$info[] = array($product, $bid, $bidder);
+			}
+		}
+	}
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -41,30 +80,20 @@
 		<td class="auto-style2"><strong>Bid Date</strong></td>
 		<td class="auto-style2"><strong>Bid Price</strong></td>
 	</tr>
-	<tr>
-		<td class="auto-style3">2</td>
-		<td class="auto-style3">Calculator</td>
-		<td class="auto-style3">101</td>
-		<td class="auto-style3">Ali</td>
-		<td class="auto-style3">01-04-2024</td>
-		<td class="auto-style3">5</td>
-	</tr>
-	<tr>
-		<td class="auto-style3">2</td>
-		<td class="auto-style3">Calculator</td>
-		<td class="auto-style3">105</td>
-		<td class="auto-style3">Mohammed</td>
-		<td class="auto-style3">01-04-2024</td>
-		<td class="auto-style3">6</td>
-	</tr>
-	<tr>
-		<td class="auto-style3">2</td>
-		<td class="auto-style3">Calculator</td>
-		<td class="auto-style3">106</td>
-		<td class="auto-style3">Bader</td>
-		<td class="auto-style3">02-04-2024</td>
-		<td class="auto-style3">7</td>
-	</tr>
+	<?php
+	
+	foreach ($info as $row) {
+		echo '<tr>';
+		echo 	'<td class="auto-style3">' . $row[0]['product_id'] . '</td>';
+		echo 	'<td class="auto-style3">' . $row[0]['product_name'] . '</td>';
+		echo 	'<td class="auto-style3">' . $row[1]['bid_id'] . '</td>';
+		echo 	'<td class="auto-style3">' . $row[2]['bidder_name'] . '</td>';
+		echo 	'<td class="auto-style3">' . $row[1]['bid_date'] . '</td>';
+		echo 	'<td class="auto-style3">' . $row[1]['bid_price'] . '</td>';
+		echo '</tr>';
+	}
+	?>
+
 </table>
 
 <p>&nbsp;</p>
