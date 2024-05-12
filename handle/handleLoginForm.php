@@ -25,14 +25,14 @@ if (isset($_POST['submitButton'])) {
 			    $query->bindParam(':password', $pword); 
 		    	break;
 		    	
-		    case 'seller':
-    			//Preparing SELECT statement
-				$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_name = :name AND seller_password = :password AND seller_status=1;");
-    			
-    			// Binding parameters
-			    $query->bindParam(':name', $name);
-			    $query->bindParam(':password', $pword);			    
-    			break;
+	    case 'seller':
+			//Preparing SELECT statement
+			$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_name = :name AND seller_password = :password AND seller_status=1;");
+			
+			// Binding parameters
+		    $query->bindParam(':name', $name);
+		    $query->bindParam(':password', $pword);			    
+			break;
     		case 'bidder':
     			//Preparing SELECT statement
     			$query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_name = :name AND bidder_password = :password AND bidder_status=1;");

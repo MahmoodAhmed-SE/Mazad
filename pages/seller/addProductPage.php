@@ -80,6 +80,24 @@ else {
 			<input name="product_minimum_bidding_price" style="width: 102px" type="text" />&nbsp;</td>
 		</tr>
 		<tr>
+			<td class="auto-style3" style="width: 271px">Product type:</td>
+			<td class="auto-style6">
+			<select name="product_type">
+			<?php
+			$q = $pdo->prepare('SELECT * from product_type;');
+			$q->execute();
+			
+			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
+			
+			foreach ($rows as $row) {
+				echo "<option value=" . $row['product_type_id'] . ">" . $row['product_type'] . "</option>";
+			}
+			
+			?>
+			
+			</select></td>
+		</tr>
+		<tr>
 			<td class="auto-style3" style="width: 271px">Product auction 
 			starting date:</td>
 			<td class="auto-style6">

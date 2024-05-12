@@ -40,7 +40,7 @@ if(isset($_POST['submitButton'])) {
 	    			
 	    		case 'seller':
 	    			//Preparing INSERT statement
-					$query = $pdo->prepare("INSERT INTO Sellers(seller_name, seller_email, seller_phone, seller_password, seller_security_question, seller_security_answer, seller_resident_id_number, seller_resident_card_image, seller_status) VALUES(:name, :email, :phoneNumber, :pword, :securityQuestion, :securityAnswer, :idNumber, :residentCard, FALSE);");
+					$query = $pdo->prepare("INSERT INTO Sellers(seller_name, seller_email, seller_phone, seller_password, seller_security_question, seller_security_answer, seller_resident_id_number, seller_resident_card_image, seller_status,administrator_id) VALUES(:name, :email, :phoneNumber, :pword, :securityQuestion, :securityAnswer, :idNumber, :residentCard, FALSE,0);");
 	    			
 	    			// Binding parameters
 				    $query->bindParam(':name', $name);
@@ -56,7 +56,7 @@ if(isset($_POST['submitButton'])) {
 	    			
 	    		case 'bidder':
 	    			//Preparing INSERT statement
-	    			$query = $pdo->prepare("INSERT INTO Bidders(bidder_name, bidder_email, bidder_password, bidder_security_question, bidder_security_answer, bidder_resident_id_number, bidder_resident_card_image, bidder_status) VALUES(:name, :email, :pword, :securityQuestion, :securityAnswer, :idNumber, :residentCard, FALSE);");
+	    			$query = $pdo->prepare("INSERT INTO Bidders(bidder_name, bidder_email, bidder_password, bidder_security_question, bidder_security_answer, bidder_resident_id_number, bidder_resident_card_image, bidder_status,administrator_id) VALUES(:name, :email, :pword, :securityQuestion, :securityAnswer, :idNumber, :residentCard, FALSE,0);");
 	    			
 	    			// Binding parameters
 				    $query->bindParam(':name', $name);

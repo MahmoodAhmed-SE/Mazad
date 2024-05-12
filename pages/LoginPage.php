@@ -46,7 +46,7 @@
 		<tr>
 			<td class="auto-style4">Password</td>
 			<td class="auto-style2">
-			<input name="password" style="width: 187px" type="text" />&nbsp;</td>
+			<input name="password" style="width: 187px" type="password" />&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style4">Role:</td>
