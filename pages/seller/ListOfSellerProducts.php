@@ -70,8 +70,8 @@
 		echo 	'<td class="auto-style3">' . $product['product_name'] . '</td>';
 		echo 	'<td class="auto-style3">' . $product['product_description'] . '</td>';
 		echo 	'<td class="auto-style3">' . $product['product_minimum_bidding_price'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_start_date'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_last_date'] . '</td>';
+		echo 	'<td class="auto-style3">' . date($product['product_start_date']) . '</td>';
+		echo 	'<td class="auto-style3">' . date($product['product_last_date']) . '</td>';
 		echo '</tr>';
 	}
 
@@ -81,7 +81,7 @@
 
 <p>&nbsp;</p>
 
-<p class="auto-style5"><a href="../../pages/S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 

@@ -66,7 +66,7 @@ else {
 <form action="../../handle/handleClosingProduct.php" method="post" style="width: 718px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
-			<td class="auto-style4" colspan="2">Publish a product</td>
+			<td class="auto-style4" colspan="2">Close a product</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Choose a product to 
@@ -95,7 +95,7 @@ else {
 	</table>
 </form>
 
-<p class="auto-style5"><a href="../../pages/S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 

@@ -120,7 +120,7 @@
 
 <p>&nbsp;</p>
 
-<p class="auto-style5"><a href="S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 

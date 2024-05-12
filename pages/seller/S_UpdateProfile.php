@@ -105,7 +105,7 @@ else {
 	</table>
 </form>
 
-<p class="auto-style5"><a href="../pages/S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 

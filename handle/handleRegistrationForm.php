@@ -97,18 +97,18 @@ if(isset($_POST['submitButton'])) {
 			$_SESSION['role'] = $role;
 
 
-			// switch ($role) {
-			// 	case 'seller':
-			// 		header('Location: /Mazad/pages/seller/S_Menu.php');
-			// 	break;
-			// 	case 'bidder':
-			// 		header('Location: /Mazad/pages/bidder/B_Menu.php');
-			// 	break;
-			// 	case 'admin':
-			// 		header('Location: /Mazad/pages/administrator/A_Menu.php');
-			// 	break;
-			// 	default: break;
-			// }
+			switch ($role) {
+				case 'seller':
+					header('Location: /Mazad/pages/seller/S_Menu.php');
+				break;
+				case 'bidder':
+					header('Location: /Mazad/pages/bidder/B_Menu.php');
+				break;
+				case 'admin':
+					header('Location: /Mazad/pages/administrator/A_Menu.php');
+				break;
+				default: break;
+			}
 			
 		}
 		catch(PDOException $e) {

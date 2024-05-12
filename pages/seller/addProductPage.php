@@ -106,13 +106,13 @@ else {
 			<td class="auto-style3" style="width: 271px">Product auction 
 			starting date:</td>
 			<td class="auto-style6">
-			<input name="product_start_date" type="text" /></td>
+			<input name="product_start_date" type="date" value='<?php echo date('Y-m-d'); ?>' readonly /></td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Product auction ending 
 			date:</td>
 			<td class="auto-style6">
-			<input name="product_last_date" type="text" />&nbsp;</td>
+			<input name="product_last_date" type="date" />&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style1" colspan="2"><br />
@@ -123,7 +123,7 @@ else {
 	</table>
 </form>
 
-<p class="auto-style5"><a href="S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 
