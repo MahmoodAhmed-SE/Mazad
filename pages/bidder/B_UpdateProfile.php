@@ -54,7 +54,7 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="" method="post" style="width: 688px">
+<form action="../../handle/bidder/handleUpdatingProfile.php" method="post" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2"><strong>Update Bidder Registration</strong></td>
@@ -62,34 +62,34 @@ else {
 		<tr>
 			<td class="auto-style3" style="width: 271px">Bidder Name:</td>
 			<td class="auto-style1">
-			<input name="Text1" style="width: 246px" type="text" value="<?php $user['bidder_name'] ?>"/>&nbsp;</td>
+			<input name="bidder_name" style="width: 246px" type="text" value="<?php $user['bidder_name'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="height: 64px; width: 271px">Email 
 			Address:</td>
 			<td class="auto-style1">
-			<input name="Text4" style="width: 243px" type="text" value="<?php $user['bidder_email'] ?>"/>&nbsp;</td>
+			<input name="bidder_email" style="width: 243px" type="text" value="<?php $user['bidder_email'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Phone Number:</td>
 			<td class="auto-style1">
-			<input name="Text5" style="width: 242px" type="text" value="<?php $user['bidder_phone'] ?>"/>&nbsp;</td>
+			<input name="bidder_phone" style="width: 242px" type="text" value="<?php $user['bidder_phone'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Resident ID Number:</td>
 			<td class="auto-style1">
-			<input name="Text6" style="width: 172px" type="text" value="<?php $user['bidder_resident_id_number'] ?>"/>&nbsp;</td>
+			<input name="bidder_resident_id_number" style="width: 172px" type="text" value="<?php $user['bidder_resident_id_number'] ?>"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Resident Card <em>
 			(Please upload)</em>:</td>
 			<td class="auto-style1">
-			<input name="File1" style="width: 305px" type="file" value="<?php $user['bidder_resident_card_image'] ?>"/></td>
+			<input name="bidder_resident_card_image" style="width: 305px" type="file"/></td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Security Question:</td>
 			<td class="auto-style1">
-			<select name="Select1" style="width: 407px">
+			<select name="bidder_security_question" style="width: 407px">
 			<option value="Who is your favorite person?">Who is your favorite person?
 			</option>
 			</select></td>
@@ -97,17 +97,17 @@ else {
 		<tr>
 			<td class="auto-style3" style="width: 271px">Security Answer:</td>
 			<td class="auto-style1">
-			<input name="Text7" type="text" style="width: 225px" value="<?php $user['bidder_security_answer'] ?>"/></td>
+			<input name="bidder_security_answer" type="text" style="width: 225px" value="<?php $user['bidder_security_answer'] ?>"/></td>
 		</tr>
 		<tr>
 			<td class="auto-style1" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="Submit1" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="Reset1" type="reset" value="CANCEL" />&nbsp;</td>
+			<input name="submit" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
 		</tr>
 	</table>
 </form>
 
-<p class="auto-style5"><a href="../pages/B_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 

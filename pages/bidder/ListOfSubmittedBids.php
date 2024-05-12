@@ -73,7 +73,7 @@ else {
 
 <p>&nbsp;</p>
 
-<p class="auto-style5"><a href="../pages/S_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 

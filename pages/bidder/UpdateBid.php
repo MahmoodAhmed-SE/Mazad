@@ -90,7 +90,7 @@ else {
 	</table>
 </form>
 
-<p class="auto-style5"><a href="B_Menu.php">Back To Menu</a></p>
+<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
 </center>
 </body>
 
