@@ -6,7 +6,7 @@ if (isset($_POST['submit'])) {
     if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         $pdo = require('../../mysql_db_connection.php');
 
-        $bidder_id = $_SESSION['user_id'];
+        $id = $_SESSION['user_id'];
         $role = $_SESSION['role'];
 
         require('../../services/getUser.php');
@@ -27,6 +27,7 @@ if (isset($_POST['submit'])) {
         $query->bindParam(':product_id', $product_id);
         $query->bindParam(':bid_price', $bid_price);
         $query->bindParam(':bid_date', $bid_date);
+        $query->bindParam(':bidder_id', $id);
 
         $query->execute();
 

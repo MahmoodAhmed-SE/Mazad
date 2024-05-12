@@ -15,6 +15,26 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 		header('Location: /Mazad/pages/LoginPage.php');
 	}
 
+
+	$query = $pdo->prepare('SELECT * FROM Bids WHERE bidder_id = :bidder_id');
+	$query->bindParam(':bidder_id', $id);
+	$query->execute();
+
+
+	$bidder_bids = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$bidder_bids_with_product_info[] = array();
+
+	foreach ($bidder_bids as $bid) {
+		$q = prepare('SELECT product_name FROM Products WHERE product_id = :product_id');
+		$q->bindParam(':product_id', $bid['product_id']);
+		$q->exectute();
+
+		$product_name = $q->fetch(PDO::FETCH_ASSOC);
+		$product_name = $product_name['product_name'];
+		
+		$bidder_bids_with_product_info[] = array($bidder_bids, $product_name);
+	}
 }
 else {
 	header('Location: /Mazad/pages/LoginPage.php');
@@ -72,20 +92,24 @@ else {
 			<td class="auto-style3" style="width: 271px">Choose the product bid to 
 			update:</td>
 			<td class="auto-style6">
-			&nbsp;<select name="s" style="width: 184px">
-			<option>Classic car model 1985</option>
+			&nbsp;<select name="bid_id" style="width: 184px">
+			<?php
+			foreach($bidder_bids_with_product_info as $info) {
+				echo '<option value="' . $info[0]['bid_id'] . '">' . $info[1] . '</option>';
+			}
+			?>
 			</select></td>
 		</tr>
 		<tr>
 			<td class="auto-style7" style="width: 271px">Updated bidding price:</td>
 			<td class="auto-style6">
-			<input name="Text1" type="text" value="1200" /></td>
+			<input name="bid_price" type="text" value="1200" /></td>
 		</tr>
 		<tr>
 			<td class="auto-style1" colspan="2"><br />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="Submit1" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="Reset1" type="reset" value="CANCEL" />&nbsp;</td>
+			<input name="submit" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
 		</tr>
 	</table>
 </form>

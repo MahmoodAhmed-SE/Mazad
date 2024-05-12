@@ -6,7 +6,7 @@ if (isset($_POST['submit'])) {
     if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         $pdo = require('../../mysql_db_connection.php');
 
-        $bidder_id = $_SESSION['user_id'];
+        $id = $_SESSION['user_id'];
         $role = $_SESSION['role'];
 
         require('../../services/getUser.php');

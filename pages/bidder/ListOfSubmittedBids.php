@@ -15,6 +15,25 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 		header('Location: /Mazad/pages/LoginPage.php');
 	}
 
+	$query = $pdo->prepare('SELECT * FROM Bids WHERE bidder_id = :bidder_id');
+	$query->bindParam(':bidder_id', $id);
+	$query->execute();
+
+
+	$bidder_bids = $query->fetchAll(PDO::FETCH_ASSOC);
+	
+	$bidder_bids_with_product_info[] = array();
+
+	foreach ($bidder_bids as $bid) {
+		$q = prepare('SELECT product_name FROM Products WHERE product_id = :product_id');
+		$q->bindParam(':product_id', $bid['product_id']);
+		$q->exectute();
+
+		$product_name = $q->fetch(PDO::FETCH_ASSOC);
+		$product_name = $product_name['product_name'];
+		
+		$bidder_bids_with_product_info[] = array($bidder_bids, $product_name);
+	}
 }
 else {
 	header('Location: /Mazad/pages/LoginPage.php');
@@ -59,16 +78,20 @@ else {
 <center>
 <h1 class="auto-style1">LIST OF BIDS SUBMITED</h1>
 &nbsp;<table style="width: 100%" class="auto-style4">
-	<tr>
+	<tr>	
 		<td class="auto-style2" style="width: 385px">Product name</td>
 		<td class="auto-style2">Bid Price</td>
 		<td class="auto-style2">Status</td>
 	</tr>
-	<tr>
-		<td class="auto-style3" style="width: 385px">Classic Car model 1985</td>
-		<td class="auto-style3">1200</td>
-		<td class="auto-style3">Lost bid</td>
-	</tr>
+	<?php
+	foreach ($bidder_bids_with_product_info as $info) {
+		echo '<tr>';
+		echo '	<td class="auto-style2" style="width: 385px">' . $info[1] . '</td>';
+		echo '	<td class="auto-style2">' . $info[0]['bid_price'] . '</td>';
+		echo '	<td class="auto-style2">Not decided yet!</td>';
+		echo '</tr>';
+	}
+	?>
 	</table>
 
 <p>&nbsp;</p>

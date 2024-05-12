@@ -15,8 +15,7 @@
 			header('Location: /Mazad/pages/LoginPage.php');
 		}
 
-		$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id;');
-		$products_query->bindParam(':seller_id', $id);
+		$products_query = $pdo->prepare('SELECT * FROM Products;');
 		$products_query->execute();
 		$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -32,7 +31,7 @@
 <head>
 <meta content="en-us" http-equiv="Content-Language" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Forget Password</title>
+<title>List of products</title>
 <style type="text/css">
 .auto-style1 {
 	text-align: center;
