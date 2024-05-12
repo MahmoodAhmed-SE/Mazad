@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
 
         header('Location: /Mazad/pages/bidder/B_Menu');
 
-        echo '<script>alert("Updated successfully!")</script>';
+        echo '<script>alert("Profile updated successfully!")</script>';
         exit();
     }
     else {

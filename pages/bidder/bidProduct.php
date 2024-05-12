@@ -58,7 +58,7 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="" method="post" style="width: 688px">
+<form action="../../handle/bidder/handleBiddingOnProduct.php" method="post" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2">Bid on a product</td>
@@ -66,21 +66,25 @@ else {
 		<tr>
 			<td class="auto-style3" style="width: 271px">Choose product:</td>
 			<td class="auto-style6">
-			<select name="i" style="width: 248px">
-			<option>Classic Car model 1985</option>
+			<select name="product_id" style="width: 248px" required>
+			<?php
+			foreach ($products as $product) {
+				echo '<option value=' . $product['product_id'] . ' >' . $product['product_name'] . '</option>';
+			}
+			?>
 			</select></td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="height: 64px; width: 271px">Bidding 
 			amount</td>
 			<td class="auto-style6">
-			<input name="Text1" type="text" value="1000" />&nbsp; OMR</td>
+			<input name="bid_price" type="number" />&nbsp; OMR</td>
 		</tr>
 		<tr>
 			<td class="auto-style1" colspan="2"><br />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="Bid" type="submit" value="Bid" style="width: 73px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="Reset1" type="reset" value="CANCEL" />&nbsp;</td>
+			<input name="submit" type="submit" value="Bid" style="width: 73px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
 		</tr>
 	</table>
 </form>
