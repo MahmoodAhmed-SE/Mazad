@@ -57,7 +57,7 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="../../handle/handleAddingProduct.php" method="post" enctype="multipart/form-data" style="width: 688px">
+<form action="../../handle/seller/handleAddingProduct.php" method="post" enctype="multipart/form-data" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2">Publish a product</td>

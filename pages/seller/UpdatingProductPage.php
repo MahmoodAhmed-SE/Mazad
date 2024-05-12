@@ -65,7 +65,7 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="../../handle/handleUpdatingProduct.php" method="post" style="width: 688px">
+<form action="../../handle/seller/handleUpdatingProduct.php" method="post" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2">Update a product</td>
