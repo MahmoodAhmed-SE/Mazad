@@ -36,7 +36,7 @@
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="../handle/handleRegistrationForm.php" method="post" style="width: 690px">
+<form action="../handle/handleRegistrationForm.php" method="post" enctype="multipart/form-data" style="width: 690px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2"><strong>Registration</strong></td>

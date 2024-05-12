@@ -68,7 +68,7 @@ else {
 <form action="../../handle/handleUpdatingProduct.php" method="post" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
-			<td class="auto-style4" colspan="2">Publish a product</td>
+			<td class="auto-style4" colspan="2">Update a product</td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Choose a product to 
@@ -104,13 +104,13 @@ else {
 			<td class="auto-style3" style="width: 271px">Updated Product auction 
 			starting date:</td>
 			<td class="auto-style6">
-			<input name="updated_product_start_date" type="text" /></td>
+			<input name="updated_product_start_date" type="date" value='<?php echo date('Y-m-d'); ?>' readonly/></td>
 		</tr>
 		<tr>
 			<td class="auto-style3" style="width: 271px">Updated Product auction ending 
 			date:</td>
 			<td class="auto-style6">
-			<input name="updated_product_last_date" type="text" />&nbsp;</td>
+			<input name="updated_product_last_date" type="date"/>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="auto-style1" colspan="2"><br />

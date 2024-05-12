@@ -21,12 +21,17 @@ if(isset($_POST['submit'])) {
         if ($user === false) {
             header('Location: /Mazad/pages/LoginPage.php');
         }
-
+        
         $product_name = $_POST['product_name'];
         $product_description = $_POST['product_description'];
         $product_minimum_bidding_price = $_POST['product_minimum_bidding_price'];
         $product_start_date = $_POST['product_start_date'];
         $product_last_date = $_POST['product_last_date'];
+        $product_image = $_FILES['product_image'];
+        $seller_id = $user['seller_id'];
+        
+        require('../services/uploadImage.php');
+        $filename = upload($product_image, 'product_images');
 
 
         $query = $pdo->prepare('INSERT INTO Products(product_name, product_minimum_bidding_price, product_description, product_start_date, product_last_date, product_status, seller_id, product_type_id, product_image, bidder_id) 
@@ -34,9 +39,7 @@ if(isset($_POST['submit'])) {
 
         // to work with:
         $prod_default_status = '1';
-        $seller_id = $user['seller_id'];
         $product_type_id = 1;
-        $product_image = 'image path';
         $bidder_id = 1;
 
         $query->bindParam(':product_name', $product_name);
@@ -47,7 +50,7 @@ if(isset($_POST['submit'])) {
         $query->bindParam(':product_status', $prod_default_status);
         $query->bindParam(':seller_id', $seller_id);
         $query->bindParam(':product_type_id', $product_type_id);
-        $query->bindParam(':product_image', $product_image);
+        $query->bindParam(':product_image', $filename);
         $query->bindParam(':bidder_id', $bidder_id);
 
 

@@ -1,15 +1,13 @@
 <?PHP
-
 $name = $_POST['name'];
 $pword = $_POST['password'];
 $email = $_POST['email'];
 $phoneNumber = $_POST['phoneNumber'];
 $idNumber = $_POST['idNumber'];
-$residentCard = $_POST['residentCard'];
+$residentCard = $_FILES["residentCard"];
 $securityQuestion = $_POST['securityQuestion'];
 $securityAnswer = $_POST['securityAnswer'];
 $role = $_POST['role'];
-
 
 
 if(isset($_POST['submitButton'])) {
@@ -21,8 +19,18 @@ if(isset($_POST['submitButton'])) {
     	// db connection
 	    $pdo = require('../mysql_db_connection.php');
 	    
+	    require('../services/uploadImage.php');
 	    
-	    
+		$filename = upload($residentCard, "card_images");
+
+		if ($filename == null) {
+			header('Location: /Mazad/pages/Registration.php');
+
+			echo '<script>alert("Sorry, there was an error uploading your file");</script>';
+
+			return;
+		}
+
 	    try {
 	   		// mysql query based on role of user 
 	    	$query = NULL;
@@ -50,7 +58,7 @@ if(isset($_POST['submitButton'])) {
 				    $query->bindParam(':securityQuestion', $securityQuestion);
 				    $query->bindParam(':securityAnswer', $securityAnswer);
 				    $query->bindParam(':idNumber', $idNumber);
-				    $query->bindParam(':residentCard', $residentCard);   
+				    $query->bindParam(':residentCard', $filename);   
 				    
 	    			break;
 	    			
@@ -65,7 +73,7 @@ if(isset($_POST['submitButton'])) {
 				    $query->bindParam(':securityQuestion', $securityQuestion);
 				    $query->bindParam(':securityAnswer', $securityAnswer);
 				    $query->bindParam(':idNumber', $idNumber);
-				    $query->bindParam(':residentCard', $residentCard);
+				    $query->bindParam(':residentCard', $filename);
 				    
 	    			break;
 	    			
@@ -89,18 +97,18 @@ if(isset($_POST['submitButton'])) {
 			$_SESSION['role'] = $role;
 
 
-			switch ($role) {
-				case 'seller':
-					header('Location: /Mazad/pages/seller/S_Menu.php');
-				break;
-				case 'bidder':
-					header('Location: /Mazad/pages/bidder/B_Menu.php');
-				break;
-				case 'admin':
-					header('Location: /Mazad/pages/administrator/A_Menu.php');
-				break;
-				default: break;
-			}
+			// switch ($role) {
+			// 	case 'seller':
+			// 		header('Location: /Mazad/pages/seller/S_Menu.php');
+			// 	break;
+			// 	case 'bidder':
+			// 		header('Location: /Mazad/pages/bidder/B_Menu.php');
+			// 	break;
+			// 	case 'admin':
+			// 		header('Location: /Mazad/pages/administrator/A_Menu.php');
+			// 	break;
+			// 	default: break;
+			// }
 			
 		}
 		catch(PDOException $e) {

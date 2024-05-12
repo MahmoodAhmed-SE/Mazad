@@ -62,34 +62,40 @@ else {
 		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, <?php echo ucfirst($user['administrator_name']); ?>!</strong>
 		</td>
 		<td class="auto-style5" style="width: 59px"><strong><br />
-		<span class="auto-style6">LOGOUT</span><br />
+		<span class="auto-style6"><a href='../../handle/handleLogout.php'>LOGOUT</a></span><br />
 		</strong></td>
 	</tr>
 </table>
 <table class="auto-style3" style="width: 100%">
 	<tr>
-		<td class="auto-style2"><strong>
+		<td class="auto-style2" colspan="3" style="height: 271px"><strong>
 		<br class="auto-style1" />
-		<img alt="" height="177" src="../../ChangePassword.png" width="177" /><br class="auto-style1" />
-		<span class="auto-style1">Change 
-		password</span></strong></td>
-		<td class="auto-style2">&nbsp;</td>
-		<td class="auto-style2">&nbsp;</td>
+		<img alt="" height="177" src="../../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
+		<span class="auto-style1"><a href="../ForgetPassword.php">Change 
+		password</a><br></span></strong></td>
 	</tr>
 	<tr>
-		<td class="auto-style7"><strong>
-		<img alt="" height="177" src="ViewList.png" width="177" /><br />
-		<a href="ViewSellerByAdmin.php">List of Sellers</a> for Approval</strong></td>
-		<td class="auto-style7">List of Approved Sellers</td>
-		<td class="auto-style7">List of Denied Sellers</td>
+		<td class="auto-style7" style="height: 288px"><strong>
+		<img alt="" height="177" src="../../assets/ViewList.png" width="177" /><br />
+		<a href="ViewSellerByAdmin.php">List of Sellers for Approval</a></strong></td>
+		<td class="auto-style7" style="height: 288px">
+		<img alt="" height="177" src="../../assets/denied-1.png" width="177" /><br>List of Denied Sellers</td>
+		<td class="auto-style7" style="height: 288px">
+		<img alt="" height="177" src="../../assets/approval.png" width="177" /><br>List of Approved Sellers</td>
 	</tr>
 	<tr>
-		<td class="auto-style2" style="height: 20px; "><strong>
-		<img alt="" height="177" src="bidders.png" width="177" /><br class="auto-style1" />
+		<td class="auto-style7" style="height: 312px"><strong>
+		<br />
+		<img alt="" height="177" src="../../assets/bidders.png" width="177" /><br class="auto-style1" />
 		</strong><span class="auto-style1">
-		<strong><a href="ViewBidderByAdmin.php">List of Bidders</a> for Approval</strong></span></td>
-		<td class="auto-style2" style="height: 20px; ">List of Approved Bidders</td>
-		<td class="auto-style2" style="height: 20px; ">List of Denied Bidders</td>
+		<strong><a href="ViewBidderByAdmin.php">List of Bidders for Approval</a></strong></span><td class="auto-style7" style="height: 312px">
+		<img alt="" height="177" src="../../assets/forbidden.png" width="177" /><br>List of 
+		Denied Bidders</td>
+		</td>
+		<td class="auto-style7" style="height: 312px">
+		<br>
+		<img alt="" height="177" src="../../assets/approve.png" width="177" /><br>List of 
+		Approved Bidders</td>
 	</tr>
 	</table>
 

@@ -57,13 +57,13 @@ else {
 
 <body style="background-color: #9DC8C6">
 <center>
-<form action="../../handle/handleAddingProduct.php" method="post" style="width: 688px">
+<form action="../../handle/handleAddingProduct.php" method="post" enctype="multipart/form-data" style="width: 688px">
 	<table class="auto-style2" style="width: 100%">
 		<tr>
 			<td class="auto-style4" colspan="2">Publish a product</td>
 		</tr>
 		<tr>
-			<td class="auto-style3" style="width: 271px">Product name:</td>
+			<td class="auto-style3" style="width: 271px">Product Name:</td>
 			<td class="auto-style6">
 			<input name="product_name" type="text" />&nbsp;</td>
 		</tr>
@@ -80,7 +80,7 @@ else {
 			<input name="product_minimum_bidding_price" style="width: 102px" type="text" />&nbsp;</td>
 		</tr>
 		<tr>
-			<td class="auto-style3" style="width: 271px">Product type:</td>
+			<td class="auto-style3" style="width: 271px">Product Type:</td>
 			<td class="auto-style6">
 			<select name="product_type">
 			<?php
@@ -98,6 +98,11 @@ else {
 			</select></td>
 		</tr>
 		<tr>
+			<td class="auto-style3" style="width: 271px">Product Image</td>
+			<td class="auto-style6">
+			&nbsp;<input name="product_image" type="file" /></td>
+		</tr>
+		<tr>
 			<td class="auto-style3" style="width: 271px">Product auction 
 			starting date:</td>
 			<td class="auto-style6">
@@ -112,7 +117,7 @@ else {
 		<tr>
 			<td class="auto-style1" colspan="2"><br />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="submit" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+			<input name="submit" type="submit" value="Add" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
 		</tr>
 	</table>
