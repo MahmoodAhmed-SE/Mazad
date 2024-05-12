@@ -66,8 +66,8 @@ foreach($rows as $row)
 			echo "<td><center>{$row['bidder_email']}</center></td>";
 			echo "<td><center>{$row['bidder_resident_id_number']}</center></td>";
 			echo "<td><center><img=src'{$row['bidder_resident_card_image']}'></center></td>";
-			echo "<td><center><a href='approvebidder.php?sid={$row['bidder_id']}'onclick=\"return confirm('Do you want to approve the bidder?');\">Approve</a><center></td>";
-			echo "<td><center><a href='denybidder.php?sid={$row['bidder_id']}'onclick=\"return confirm('Do you want to deny the bidder?');\">Deny</a><center></td>";
+			echo "<td><center><a href='../../hanlde/handleApproveBidder.php?sid={$row['bidder_id']}'onclick=\"return confirm('Do you want to approve the bidder?');\">Approve</a><center></td>";
+			echo "<td><center><a href='../../hanlde/handleDenyBidder.php?sid={$row['bidder_id']}'onclick=\"return confirm('Do you want to deny the bidder?');\">Deny</a><center></td>";
 		echo "</tr>";
 	}
 	
