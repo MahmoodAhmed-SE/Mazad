@@ -30,13 +30,13 @@ else {
 <body>
 <?php
 $sid = $_GET["sid"];
-$query = $pdo->prepare("UPDATE sellers SET seller_status='0', administrator_id =:aid WHERE seller_id =:sid;");
+$query = $pdo->prepare("UPDATE bidders SET bidder_status='0', administrator_id =:aid WHERE bidder_id =:bid;");
 $query->bindParam(':aid', $id);
-$query->bindParam(':sid', $sid);
+$query->bindParam(':bid', $bid);
 $query->execute();
 
-echo "Seller Profile has been approved.<br><br>";
-echo "<a href='ViewSellerByAdmin.php'>BACK</a>";
+echo "Bidder Profile has been denied.<br><br>";
+echo "<a href='ViewBidderByAdmin.php'>BACK</a>";
 ?>
 </body>
 

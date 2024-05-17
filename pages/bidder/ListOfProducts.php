@@ -1,93 +1,179 @@
 <?php
-	session_start();
-	$products = NULL;
+session_start();
+$products = NULL;
 
-	if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-		$pdo = require('../../mysql_db_connection.php');
-		$id = $_SESSION['user_id'];
-		$role = $_SESSION['role'];
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
+    
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
+    
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+    }
+    
+    if (isset($_POST['search'])) {
+        $searchTerm = $_POST['search'];
+        $product_type_id = isset($_POST['product_type_id']) && $_POST['product_type_id'] != 'all' ? $_POST['product_type_id'] : null;
 
-		require('../../services/getUser.php');
-		
-		$user = getUser($pdo, $id, $role);
-
-		if ($user === false) {
-			header('Location: /Mazad/pages/LoginPage.php');
-		}
-
-		$products_query = $pdo->prepare('SELECT * FROM Products;');
-		$products_query->execute();
-		$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
-
-	}
-	else {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+        if (!empty($searchTerm)) {
+            if (!empty($product_type_id)) {
+                $stmt = $pdo->prepare('SELECT * FROM Products WHERE product_name LIKE :searchTerm AND product_type_id = :product_type_id');
+                $stmt->bindValue(':product_type_id', $product_type_id);
+            } else {
+                $stmt = $pdo->prepare('SELECT * FROM Products WHERE product_name LIKE :searchTerm');
+            }
+            $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+        } else {
+            if (!empty($product_type_id) && $product_type_id != 'all') {
+                $stmt = $pdo->prepare('SELECT * FROM Products WHERE product_type_id = :product_type_id');
+                $stmt->bindValue(':product_type_id', $product_type_id);
+            } else {
+                $stmt = $pdo->prepare('SELECT * FROM Products');
+            }
+        }
+        
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $products_query = $pdo->prepare('SELECT * FROM Products;');
+        $products_query->execute();
+        $products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+    }
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+}
 ?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>List of products</title>
-<style type="text/css">
-.auto-style1 {
-	text-align: center;
-}
-.auto-style2 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	font-size: large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	border: 4px solid #800000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #9DC8C6;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form input[type="text"],
+        .search-form select {
+            padding: 10px;
+            width: 60%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .search-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .product-item {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product-item h2 {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .no-products {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+    </style>
 </head>
+<body>
 
-<body style="background-color: #9DC8C6">
+<div class="container">
+    <h1>Search Products</h1>
+    <form class="search-form" method="POST">
+        <input type="text" name="search" placeholder="Search for a product...">
+        <select name="product_type_id">
+            <option value="all">All</option>
+            <?php 
+            $q = $pdo->prepare('SELECT * FROM PRODUCT_TYPE;');
+            $q->execute();
+            $types = $q->fetchAll(PDO::FETCH_ASSOC);
+            foreach($types as $type) {
+                echo '<option value="' . $type['product_type_id'] . '">' . $type['product_type'] . '</option>';
+            }
+            ?>
+        </select>
+        <input type="submit" value="Search">
+        <input type="submit" name="show_all" value="Show All">
+    </form>
 
-<center>
-<h1 class="auto-style1">LIST OF PRODUCTS</h1>
-&nbsp;<table style="width: 100%" class="auto-style4">
-	<tr>
-		<td class="auto-style2"><strong>Product Status</strong></td>
-		<td class="auto-style2"><strong>Product Name</strong></td>
-		<td class="auto-style2"><strong>Product Description</strong></td>
-		<td class="auto-style2"><strong>Product Minimum Price</strong></td>
-		<td class="auto-style2"><strong>Product starting Date</strong></td>
-		<td class="auto-style2"><strong>Product ending date</strong></td>
-	</tr>
-	<?php
-	foreach($products as $product) {
-		echo '<tr>';
-		echo 	'<td class="auto-style3">' . $product['product_status'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_name'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_description'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_minimum_bidding_price'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_start_date'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_last_date'] . '</td>';
-		echo '</tr>';
-	}
 
-	?>
-	
-	</table>
+    <div class="product-list">
+        <?php if ($products && count($products) > 0) : ?>
+            <?php foreach ($products as $product) : ?>
+				<div class="product-item">
+					<img src="../../uploads/product_images/<?php echo $product['product_image']; ?>" alt="<?php echo $product['product_name']; ?>" width="300">
+					<a href='bidProduct.php?product_id=<?php echo $product['product_id']; ?>'>
+						<h2><?php echo $product['product_name']; ?></h2>
+					</a>
+				</div>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <p class="no-products">No products found. Try a different search.</p>
+        <?php endif; ?>
+    </div>
+</div>
 
-<p>&nbsp;</p>
-
-<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
-</center>
 </body>
-
 </html>

@@ -1,6 +1,26 @@
 <?php
 session_start();
+
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
+
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
+
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit();
+    }
+}
+else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +37,7 @@ session_start();
         }
 
         .container {
-            max-width: 80%;
+            max-width: 70%;
             margin: 20px auto;
             background-color: #fff;
             border-radius: 8px;
@@ -49,23 +69,9 @@ session_start();
             background-color: #f4f4f4;
         }
 
-        .action-column {
-            width: 202px;
-        }
-
-        .action-column a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .action-column a:hover {
-            text-decoration: underline;
-        }
-
         .resident-image {
-            height: 250px;
-            width: 300px;
+            height: 100px;
+            width: 150px;
         }
 
         .menu-link {
@@ -90,11 +96,14 @@ session_start();
 
     <div class="container">
         <p class="title"><strong>View Seller Details</strong></p>
-        <table>
+        <table align="center">
             <tr>
-                <th>Contact</th>
-                <th>Action</th>
-                <th colspan="2">Residency</th>
+                <th>Seller ID</th>
+                <th>Seller Name</th>
+                <th>Seller Email</th>
+                <th>Seller Phone</th>
+                <th>Resident Card ID</th>
+                <th>Resident Card</th>
             </tr>
 
             <?php
@@ -104,24 +113,17 @@ session_start();
             $rows = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($rows as $row) {
                 echo '<tr>';
-                echo '<td>';
-                echo '<strong>Seller ID:</strong> ' . $row['seller_id'] . '<br>';
-                echo '<strong>Seller Name:</strong> ' . $row['seller_name'] . '<br>';
-                echo '<strong>Seller Email:</strong> ' . $row['seller_email'] . '<br>';
-                echo '<strong>Seller Phone:</strong> ' . $row['seller_phone'] . '</td>';
-                echo '<td class="action-column">';
-                echo "<a href='../../handle/administrator/handleApproveSeller.php?sid={$row['seller_id']}' onclick=\"return confirm('Do you want to approve the seller?');\">Approve</a><br><br>";
-                echo "<a href='../../handle/administrator/handleDenySeller.php?sid={$row['seller_id']}' onclick=\"return confirm('Do you want to deny the seller?');\">Deny</a>";
-                echo '</td>';
-                echo '<td colspan="2">';
-                echo '<strong>Resident Card ID:</strong> ' . $row['seller_resident_id_number'] . '<br>';
-                echo '<img class="resident-image" src="../../uploads/card_images/' . $row['seller_resident_card_image'] . '" alt="Resident Card Image">';
-                echo '</td>';
+                echo '<td>' . $row['seller_id'] . '</td>';
+                echo '<td>' . $row['seller_name'] . '</td>';
+                echo '<td>' . $row['seller_email'] . '</td>';
+                echo '<td>' . $row['seller_phone'] . '</td>';
+                echo '<td>' . $row['seller_resident_id_number'] . '</td>';
+                echo '<td><img class="resident-image" src="../../uploads/card_images/' . $row['seller_resident_card_image'] . '" alt="Resident Card Image"></td>';
                 echo '</tr>';
             }
             ?>
         </table>
-        <p class="menu-link"><strong><a href="A_Menu.php">Administrator Dashboard</a></strong></p>
+        <p class="menu-link"><strong><a href="A_Menu.php">Homepage</a></strong></p>
     </div>
 
 </body>

@@ -1,127 +1,144 @@
 <?php
-	$info[] = array();
-	session_start();
+$info = array();
+session_start();
 
-	if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
-		header('Location: /pages/LoginPage.php');
-	}
-	else {
-		$message = NULL;
+if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
+    header('Location: /pages/LoginPage.php');
+    exit;
+} else {
+    $message = null;
 
+    if (empty($_GET['product_id'])) {
+        header('Location: ViewListOfSellerProducts.php');
+        exit;
+    }
 
-		$id = $_SESSION['user_id'];
-		$role = $_SESSION['role'];
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
+    $product_id = $_GET['product_id'];
 
-		$pdo = require('../../mysql_db_connection.php');
+    $pdo = require('../../mysql_db_connection.php');
 
-		$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id;');
-		$products_query->bindParam(':seller_id', $id);
-		$products_query->execute();
-		$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+    $products_query = $pdo->prepare('SELECT * FROM Products WHERE product_id = :product_id;');
+    $products_query->bindParam(':product_id', $product_id);
+    $products_query->execute();
+    $products = $products_query->fetchAll(PDO::FETCH_ASSOC);
 
-		if (count($products) > 0) {
-			foreach ($products as $product) {
-				$bids_query = $pdo->prepare('SELECT * FROM Bids WHERE product_id = :product_id;');
-				$bids_query->bindParam(':product_id', $product['product_id']);
-				$bids_query->execute();
-				$bids = $bids_query->fetchAll(PDO::FETCH_ASSOC);
+    if (count($products) > 0) {
+        foreach ($products as $product) {
+            $bids_query = $pdo->prepare('SELECT * FROM Bids WHERE product_id = :product_id;');
+            $bids_query->bindParam(':product_id', $product['product_id']);
+            $bids_query->execute();
+            $bids = $bids_query->fetchAll(PDO::FETCH_ASSOC);
 
-				
-				if (count($bids) > 0) {
-					foreach ($bids as $bid) {
-						echo $bid['bid_id'];
-						$bids_query = $pdo->prepare('SELECT * FROM Bidders WHERE bidder_id = :bidder_id;');
-						$bids_query->bindParam(':bidder_id', $bid['bidder_id']);
-						$bids_query->execute();
-						$bidder = $bids_query->fetch(PDO::FETCH_ASSOC);
-						
-						echo $bidder['bidder_id'];
-						$info[] = array($product, $bid, $bidder);
-					}
-				}
-				else {
-					$message = "No bidders yet!";
-				}
-			}
-		}
-		else {
-			$message = "No products published yet!";
-		}
-		
-	}
+            if (count($bids) > 0) {
+                foreach ($bids as $bid) {
+                    $bidder_query = $pdo->prepare('SELECT * FROM Bidders WHERE bidder_id = :bidder_id;');
+                    $bidder_query->bindParam(':bidder_id', $bid['bidder_id']);
+                    $bidder_query->execute();
+                    $bidder = $bidder_query->fetch(PDO::FETCH_ASSOC);
 
+                    $info[] = array(
+                        'product_id' => $product['product_id'],
+                        'product_name' => $product['product_name'],
+                        'bid_id' => $bid['bid_id'],
+                        'bidder_name' => $bidder['bidder_name'],
+                        'bid_date' => $bid['bid_date'],
+                        'bid_price' => $bid['bid_price']
+                    );
+                }
+            } else {
+                $message = "No bidders yet!";
+            }
+        }
+    } else {
+        $message = "No products published yet!";
+    }
+}
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Forget Password</title>
-<style type="text/css">
-.auto-style1 {
-	text-align: center;
-}
-.auto-style2 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	font-size: large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	border: 4px solid #800000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Bidders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9DC8C6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .no-data {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .no-data a {
+            color: #4CAF50;
+        }
+    </style>
 </head>
-
-<body style="background-color: #9DC8C6">
-
-<center>
-<h1 class="auto-style1">LIST OF BIDDERS</h1>
-&nbsp;
-	<?php
-	if ($message != NULL) {
-		echo '<center>';
-		echo $message;
-		echo '</center>';
-	} else {
-		foreach ($info as $row) {
-			echo '<table style="width: 100%" class="auto-style4">';
-			echo '<tr>';
-			echo '	<td class="auto-style2"><strong>Product ID</strong></td>';
-			echo '	<td class="auto-style2"><strong>Product Name</strong></td>';
-			echo '	<td class="auto-style2"><strong>Bid ID</strong></td>';
-			echo '	<td class="auto-style2"><strong>Bidder Name</strong></td>';
-			echo '	<td class="auto-style2"><strong>Bid Date</strong></td>';
-			echo '	<td class="auto-style2"><strong>Bid Price</strong></td>';
-			echo '</tr>';
-			echo '<tr>';
-			echo '  <td class="auto-style3">' . $row[0]['product_id'] . '</td>';
-			echo '  <td class="auto-style3">' . $row[0]['product_name'] . '</td>';
-			echo '  <td class="auto-style3">' . $row[1]['bid_id'] . '</td>';
-			echo '  <td class="auto-style3">' . $row[2]['bidder_name'] . '</td>';
-			echo '  <td class="auto-style3">' . $row[1]['bid_date'] . '</td>';
-			echo '  <td class="auto-style3">' . $row[1]['bid_price'] . '</td>';
-			echo '</tr>';
-			echo '</table>';
-		}
-	}
-	?>
-
-
-
-<p>&nbsp;</p>
-
-<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
-</center>
+<body>
+<div class="container">
+    <h1>List of Bidders</h1>
+    <?php if ($message) : ?>
+        <p class="no-data"><?php echo $message; ?></p>
+    <?php else : ?>
+        <table>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Bid ID</th>
+                <th>Bidder Name</th>
+                <th>Bid Date</th>
+                <th>Bid Price</th>
+            </tr>
+            <?php foreach ($info as $row) : ?>
+                <tr>
+                    <td><?php echo $row['product_id']; ?></td>
+                    <td><?php echo $row['product_name']; ?></td>
+                    <td><?php echo $row['bid_id']; ?></td>
+                    <td><?php echo $row['bidder_name']; ?></td>
+                    <td><?php echo $row['bid_date']; ?></td>
+                    <td><?php echo $row['bid_price']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+    <p class="no-data"><a href="./S_Menu.php">Back To Dashboard</a></p>
+</div>
 </body>
-
 </html>

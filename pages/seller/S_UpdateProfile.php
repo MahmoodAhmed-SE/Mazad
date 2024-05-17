@@ -1,112 +1,140 @@
 <?php
-
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
-	
-	$user = getUser($pdo, $id, $role);
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
 
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
-
-}
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit;
+    }
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit;
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Enter Full Name</title>
-<style type="text/css">
-.auto-style1 {
-	border: 2px solid #000000;
-}
-.auto-style2 {
-	border: 4px solid #800000;
-}
-.auto-style3 {
-	font-size: large;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Update Seller Registration</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #9DC8C6;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    select {
+        width: calc(100% - 10px);
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"],
+    input[type="reset"] {
+        padding: 10px 20px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 4px;
+        background-color: #4CAF50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover,
+    input[type="reset"]:hover {
+        background-color: #45a049;
+    }
+
+    .back-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .back-link a {
+        font-size: 18px;
+        color: #4CAF50;
+        text-decoration: none;
+    }
+
+    .back-link a:hover {
+        text-decoration: underline;
+    }
 </style>
 </head>
+<body>
 
-<body style="background-color: #9DC8C6">
-<center>
-<form action="../../handle/seller/handleUpdateSellerProfile.php" method="post" style="width: 688px">
-	<table class="auto-style2" style="width: 100%">
-		<tr>
-			<td class="auto-style4" colspan="2"><strong>Update Seller Registration</strong></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Seller Name:</td>
-			<td class="auto-style1">
-			<input name="seller_name" style="width: 246px" type="text" value="<?php echo $user['seller_name']; ?>" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="height: 64px; width: 271px">Email 
-			Address:</td>
-			<td class="auto-style1">
-			<input name="seller_email" style="width: 243px" type="text" value="<?php echo $user['seller_email']; ?>"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Phone Number:</td>
-			<td class="auto-style1">
-			<input name="seller_phone" style="width: 242px" type="text" value="<?php echo $user['seller_phone']; ?>" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Resident ID Number:</td>
-			<td class="auto-style1">
-			<input name='seller_resident_id_number' style="width: 172px" type="text" value="<?php echo $user['seller_resident_id_number']; ?>"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Resident Card <em>
-			(Please upload)</em>:</td>
-			<td class="auto-style1">
-			<input name="seller_resident_card_image" style="width: 305px" type="file" value="<?php echo $user['seller_resident_card_image']; ?>"/></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Security Question:</td>
-			<td class="auto-style1">
-			<select name="seller_security_question" style="width: 407px">
-			<option value="<?php echo $user['seller_security_question']; ?>">Who is your favorite person?
-			</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Security Answer:</td>
-			<td class="auto-style1">
-			<input name="seller_security_answer" type="text" style="width: 225px" value="<?php echo $user['seller_security_answer']; ?>"/></td>
-		</tr>
-		<tr>
-			<td class="auto-style1" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="submit" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
-		</tr>
-	</table>
-</form>
+<div class="container">
+    <h1>Update Seller Registration</h1>
+    <form action="../../handle/handleUpdateSellerProfile.php" method="post" enctype="multipart/form-data">
+        <label for="seller_name">Seller Name:</label>
+        <input type="text" name="seller_name" id="seller_name" value="<?php echo htmlspecialchars($user['seller_name']); ?>">
 
-<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
-</center>
+        <label for="seller_email">Email Address:</label>
+        <input type="text" name="seller_email" id="seller_email" value="<?php echo htmlspecialchars($user['seller_email']); ?>">
+
+        <label for="seller_phone">Phone Number:</label>
+        <input type="text" name="seller_phone" id="seller_phone" value="<?php echo htmlspecialchars($user['seller_phone']); ?>">
+
+        <label for="seller_resident_id_number">Resident ID Number:</label>
+        <input type="text" name="seller_resident_id_number" id="seller_resident_id_number" value="<?php echo htmlspecialchars($user['seller_resident_id_number']); ?>">
+
+        <label for="seller_resident_card_image">Resident Card (Please upload):</label>
+        <input type="file" name="seller_resident_card_image" id="seller_resident_card_image">
+
+        <label for="seller_security_question">Security Question:</label>
+        <select name="seller_security_question" id="seller_security_question">
+            <option value="favorite_person" selected>Who is your favorite person?</option>
+        </select>
+
+        <label for="seller_security_answer">Security Answer:</label>
+        <input type="text" name="seller_security_answer" id="seller_security_answer" value="<?php echo htmlspecialchars($user['seller_security_answer']); ?>">
+
+        <input type="submit" name="submit" value="UPDATE">
+        <input type="reset" name="reset" value="CANCEL">
+    </form>
+
+    <div class="back-link">
+        <a href="./S_Menu.php">Back To Dashboard</a>
+    </div>
+</div>
+
 </body>
-
 </html>

@@ -1,88 +1,119 @@
 <?php
-	session_start();
-	$products = NULL;
-	
-	if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
-		header('Location: /pages/LoginPage.php');
-	}
-	else {
+session_start();
 
-		$id = $_SESSION['user_id'];
-		$role = $_SESSION['role'];
+// Redirect if user is not logged in
+if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
+    header('Location: /pages/LoginPage.php');
+    exit;
+}
 
-		$pdo = require('../../mysql_db_connection.php');
-
-		$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id;');
-		$products_query->bindParam(':seller_id', $id);
-		$products_query->execute();
-		$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
-	}
-
+// Fetch products associated with the logged-in user
+$id = $_SESSION['user_id'];
+$pdo = require('../../mysql_db_connection.php');
+$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id AND product_status = 1 AND bidder_id IS NULL;');
+$products_query->bindParam(':seller_id', $id);
+$products_query->execute();
+$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Forget Password</title>
-<style type="text/css">
-.auto-style1 {
-	text-align: center;
-}
-.auto-style2 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	font-size: large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	border: 4px solid #800000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>List of Products</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #9DC8C6;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+	a {
+		text-decoration: none;
+	}
+    h1 {
+        text-align: center;
+        font-size: 24px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .no-products {
+        font-style: italic;
+        text-align: center;
+    }
+
+    .no-products a {
+        color: #4CAF50;
+    }
 </style>
 </head>
-
-<body style="background-color: #9DC8C6">
-
-<center>
-<h1 class="auto-style1">LIST OF PRODUCTS</h1>
-&nbsp;<table style="width: 100%" class="auto-style4">
-	<tr>
-		<td class="auto-style2"><strong>Product Status</strong></td>
-		<td class="auto-style2"><strong>Product Name</strong></td>
-		<td class="auto-style2"><strong>Product Description</strong></td>
-		<td class="auto-style2"><strong>Product Minimum Price</strong></td>
-		<td class="auto-style2"><strong>Product starting Date</strong></td>
-		<td class="auto-style2"><strong>Product ending date</strong></td>
-	</tr>
-	<?php
-	foreach($products as $product) {
-		echo '<tr>';
-		echo 	'<td class="auto-style3">' . $product['product_status'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_name'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_description'] . '</td>';
-		echo 	'<td class="auto-style3">' . $product['product_minimum_bidding_price'] . '</td>';
-		echo 	'<td class="auto-style3">' . date($product['product_start_date']) . '</td>';
-		echo 	'<td class="auto-style3">' . date($product['product_last_date']) . '</td>';
-		echo '</tr>';
-	}
-
-	?>
-	
-	</table>
-
-<p>&nbsp;</p>
-
-<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
-</center>
+<body>
+<div class="container">
+    <h1>List of Products</h1>
+    <?php if (!empty($products)) : ?>
+        <table>
+            <tr>
+                <th>Details</th>
+                <th>Description</th>
+                <th>Options</th>
+                <th>Image</th>
+            </tr>
+            <?php foreach ($products as $product) : ?>
+                <tr>
+                    <td>
+                        <strong>Name:</strong> <?php echo $product['product_name']; ?><br><br>
+                        <strong>Minimum Price:</strong> <?php echo $product['product_minimum_bidding_price']; ?><br><br>
+                        <strong>Starting date:</strong> <?php echo date('Y-m-d', strtotime($product['product_start_date'])); ?><br>
+                        <strong>Ending date:</strong> <?php echo date('Y-m-d', strtotime($product['product_last_date'])); ?>
+                    </td>
+                    <td><?php echo $product['product_description']; ?></td>
+                    <td class="center">
+                        <a href="ViewListOfBidders.php?product_id=<?php echo $product['product_id']; ?>">View&nbsp;Bidders</a><br><br>
+                        <a href="AwardBidder.php?product_id=<?php echo $product['product_id']; ?>">Award</a><br><br>
+                        <a href="UpdatingProductPage.php?product_id=<?php echo $product['product_id']; ?>">Update</a><br><br>
+                        <a href="ClosingProductPage.php?product_id=<?php echo $product['product_id']; ?>">Close</a>
+                    </td>
+                    <td class="center"><img src="../../uploads/product_images/<?php echo $product['product_image']; ?>" alt="Product Image" width="250"></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php else : ?>
+        <p class="no-products">No Active Products Yet. <a href="AddProductPage.php">Add product here!</a></p>
+    <?php endif; ?>
+    <p class="center"><a href="./S_Menu.php">Back To Dashboard</a></p>
+</div>
 </body>
-
 </html>

@@ -3,101 +3,132 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
-	
-	$user = getUser($pdo, $id, $role);
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
 
-	if ($user === false) {
-		echo "Register first! or you account is pending., return to homepage!";
-		exit();
-	}
+    if ($user === false) {
+        echo "Register first! or your account is pending. Return to homepage!";
+        exit();
+    }
 
-}
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit();
 }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>LOGIN PAGE</title>
-<style type="text/css">
-.auto-style1 {
-	font-size: x-large;
-}
-.auto-style2 {
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	border: 4px solid #800000;
-}
-.auto-style5 {
-	font-size: x-large;
-	text-align: left;
-}
-.auto-style6 {
-	color: #FF0000;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+		
+        .container {
+			max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+			background-color: #9DC8C6;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .welcome-message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .logout-link {
+            font-size: 16px;
+            color: #FF0000;
+            text-decoration: none;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+        .dashboard-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dashboard-option {
+            width: 200px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .dashboard-option img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-option a {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .dashboard-option a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
+<body>
 
-<table style="width: 100%">
-	<tr>
-		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, <?php echo ucfirst($user['bidder_name']); ?>! </strong>
-		</td>
-		<td class="auto-style5" style="width: 59px"><strong><br />
-		<span class="auto-style6"><a href='../../handle/handleLogout.php'>LOGOUT</a></span><br />
-		</strong></td>
-	</tr>
-</table>
-<table class="auto-style3" style="width: 100%">
-	<tr>
-		<td class="auto-style2" style="width: 537px"><strong>
-		<img alt="" height="177" src="../../assets/UpdateProfile.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1"><strong>
-		<a href="B_UpdateProfile.php">Update profile</a></strong></span></td>
-		<td class="auto-style2"><strong>
-		<img alt="" height="177" src="../../assets/AddProduct.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1"><strong>Bid Product</strong></span></td>
-	</tr>
-	<tr>
-		<td class="auto-style2" style="width: 537px"><strong>
-		<img alt="" height="177" src="../../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1"><strong><a href="../ChangePassword.php">Change 
-		password</a></strong></span></td>
-		<td class="auto-style2"><strong>
-		<img alt="" class="auto-style1" height="200" src="../../assets/UpdateProduct.png" width="200" /><br class="auto-style1" />
-		</strong><span class="auto-style1"><strong>Update Bid</strong></span></td>
-	</tr>
-	<tr>
-		<td class="auto-style2" style="height: 20px; width: 537px;"><strong>
-		<img alt="" height="177" src="../../assets/bidders.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1">
-		<a href="ListOfSubmittedBids.php">List of Submitted Bids</a></span></td>
-		<td class="auto-style2" style="height: 20px"><span class="auto-style1"><strong>
-		<img alt="" height="177" src="../../assets/ViewList.png" width="177" /><br />
-		</strong>
-		<a href="ListOfProducts.php">Search Products to Bid</a></span></td>
-	</tr>
-	<tr>
-		<td class="auto-style2" style="height: 20px; " colspan="2">
-		<strong>
-		<img alt="" height="177" src="../../assets/close.png" width="177" /><br />
-		</strong><span class="auto-style1"><strong>Cancel Bid</strong></span></td>
-	</tr>
-	</table>
-<p class="auto-style1">&nbsp;</p>
+<div class="container">
+    <h1>Welcome, <?php echo ucfirst($user['bidder_name']); ?>!</h1>
+    <p class="welcome-message">Please choose an option below:</p>
+    <p><a class="logout-link" href="../../handle/handleLogout.php">Logout</a></p>
+
+    <div class="dashboard-options">
+        <div class="dashboard-option">
+            <img src="../../assets/UpdateProfile.png" alt="Update Profile">
+            <a href="B_UpdateProfile.php">Update Profile</a>
+        </div>
+        <div class="dashboard-option">
+            <img src="../../assets/ChangePassword.png" alt="Change Password">
+            <a href="../ChangePassword.php">Change Password</a>
+        </div>
+        <div class="dashboard-option">
+            <img src="../../assets/ViewList.png" alt="Search Products to Bid">
+            <a href="ListOfProducts.php">Search Products to Bid</a>
+        </div>
+        <div class="dashboard-option">
+            <img src="../../assets/bidders.png" alt="List of Submitted Bids">
+            <a href="ListOfSubmittedBids.php">List of Submitted Bids</a>
+        </div>
+    </div>
+</div>
 
 </body>
 

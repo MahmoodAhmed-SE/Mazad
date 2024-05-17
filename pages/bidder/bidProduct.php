@@ -3,94 +3,168 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
-	
-	$user = getUser($pdo, $id, $role);
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
 
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit;
+    }
 
+    $product_id = $_GET['product_id'] ?? null;
+
+    if ($product_id) {
+        $query = $pdo->prepare('SELECT * FROM PRODUCTS WHERE product_id = :product_id');
+        $query->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $query->execute();
+
+        $product = $query->fetch(PDO::FETCH_ASSOC);
+    } else {
+        header('Location: /Mazad/pages/Dashboard.php');
+        exit;
+    }
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit;
 }
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
-}
-
-
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title></title>
-<style type="text/css">
-.auto-style1 {
-	border: 2px solid #000000;
-}
-.auto-style2 {
-	border: 4px solid #800000;
-}
-.auto-style3 {
-	font-size: large;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-.auto-style6 {
-	border: 2px solid #000000;
-	text-align: left;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9DC8C6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product-details img {
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .product-details div {
+            font-size: 18px;
+        }
+
+        .product-details label {
+            font-weight: bold;
+        }
+
+        .product-details input[type="number"],
+        .product-details input[type="submit"] {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .product-details input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .product-details input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .back-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
-<center>
-<form action="../../handle/bidder/handleBiddingOnProduct.php" method="post" style="width: 688px">
-	<table class="auto-style2" style="width: 100%">
-		<tr>
-			<td class="auto-style4" colspan="2">Bid on a product</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Choose product:</td>
-			<td class="auto-style6">
-			<select name="product_id" style="width: 248px" required>
-			<?php
-			foreach ($products as $product) {
-				echo '<option value=' . $product['product_id'] . ' >' . $product['product_name'] . '</option>';
-			}
-			?>
-			</select></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="height: 64px; width: 271px">Bidding 
-			amount</td>
-			<td class="auto-style6">
-			<input name="bid_price" type="number" />&nbsp; OMR</td>
-		</tr>
-		<tr>
-			<td class="auto-style1" colspan="2"><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="submit" type="submit" value="Bid" style="width: 73px" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
-		</tr>
-	</table>
-</form>
+<body>
 
-<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
-</center>
+<div class="container">
+    <h1>Product Details</h1>
+    <div class="product-details">
+        <div>
+            <label>Product Name:</label>
+            <span><?php echo $product['product_name']; ?></span>
+        </div>
+        <div>
+            <label>Minimum Bidding Amount:</label>
+            <span><?php echo $product['product_minimum_bidding_price']; ?> OMR</span>
+        </div>
+        <div>
+            <label>Description:</label>
+            <span><?php echo $product['product_description']; ?></span>
+        </div>
+        <div>
+            <label>Bidding Start Date:</label>
+            <span><?php echo $product['product_start_date']; ?></span>
+        </div>
+        <div>
+            <label>Bidding End Date:</label>
+            <span><?php echo $product['product_last_date']; ?></span>
+        </div>
+        <div>
+            <label>Product Image:</label>
+            <img src="../../uploads/product_images/<?php echo $product['product_image']; ?>" alt="<?php echo $product['product_name']; ?>" width="100%">
+        </div>
+        <form action="../../handle/bidder/handleBiddingOnProduct.php" method="post">
+            <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+            <div>
+                <label for="bid_price">Bidding Amount (OMR):</label>
+                <input type="number" name="bid_price" id="bid_price" required value="<?php echo $product['product_minimum_bidding_price']; ?>" min="<?php echo $product['product_minimum_bidding_price']; ?>">
+            </div>
+            <div>
+                <input type="submit" name="submit" value="Bid">
+            </div>
+        </form>
+    </div>
+    <div class="back-link">
+        <p><a href="./B_Menu.php">Back To Dashboard</a></p>
+    </div>
+</div>
+
 </body>
-
 </html>

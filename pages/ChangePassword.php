@@ -1,86 +1,141 @@
 <?php
 session_start();
-    
+
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../mysql_db_connection.php');
-	$id = isset($_SESSION['user_id']);
-	$role = isset($_SESSION['role']);
-	
-	require('../services/getUser.php');
+    $pdo = require('../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	$user = getUser($pdo, $id, $role);
-	
-	
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+    require('../services/getUser.php');
+
+    $user = getUser($pdo, $id, $role);
+
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit;
+    }
 } else {
-	header('Location: /Mazad/pages/LoginPage.php');
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit;
 }
-
 ?>
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Forget Password</title>
-<style type="text/css">
-.auto-style1 {
-	text-align: center;
-	font-size: x-large;
-	border: 2px solid #000000;
-}
-.auto-style2 {
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	border: 4px solid #800000;
-}
-.auto-style4 {
-	font-size: large;
-	border: 2px solid #000000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9DC8C6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="submit"],
+        .form-group input[type="reset"] {
+            width: 48%;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-group input[type="reset"] {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+        }
+
+        .form-group input[type="reset"]:hover {
+            background-color: #e53935;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .back-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
-<center>
-<form action="../handle/handleChangingPassword.php" method="post" style="width: 480px">
-	<table class="auto-style3" style="width: 100%">
-		<tr>
-			<td class="auto-style1" colspan="2"><strong>Change Password</strong></td>
-		</tr>
-		<tr>
-			<td class="auto-style4">Current Password</td>
-			<td class="auto-style2">
-			<input name="password" style="width: 180px" type="text" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style4">New Password</td>
-			<td class="auto-style2">
-			<input name="new_password" style="width: 181px" type="text" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style4">Re-type New Password</td>
-			<td class="auto-style2">
-			<input name="retype_new_password" style="width: 181px" type="text" /></td>
-		</tr>
-		<tr>
-			<td class="auto-style2" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-			<input name="submit" type="submit" value="CHANGE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="reset" type="reset" value="CANCEL" /></td>
-		</tr>
-	</table>
-</form>
-<p class="auto-style5"><a href="../pages/LoginPage.php">Log-in Page</a></p>
-</center>
+<body>
+    <div class="container">
+        <h1>Change Password</h1>
+        <form action="../handle/handleChangingPassword.php" method="post">
+            <div class="form-group">
+                <label for="password">Current Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="new_password">New Password</label>
+                <input type="password" name="new_password" id="new_password" required>
+            </div>
+            <div class="form-group">
+                <label for="retype_new_password">Re-type New Password</label>
+                <input type="password" name="retype_new_password" id="retype_new_password" required>
+            </div>
+            <div class="form-group" style="display: flex; justify-content: space-between;">
+                <input type="submit" name="submit" value="Change">
+                <input type="reset" name="reset" value="Cancel">
+            </div>
+        </form>
+        <div class="back-link">
+            <p><a href="../pages/LoginPage.php">Log-in Page</a></p>
+        </div>
+    </div>
 </body>
 
 </html>

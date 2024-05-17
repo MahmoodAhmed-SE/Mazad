@@ -1,7 +1,6 @@
 <?php
 
-function upload($image, $folder) {
-    $targetDir = "../uploads/" . $folder . "/";
+function upload($image, $targetDir) {
     $fileCount = count(scandir($targetDir)) - 2;
 
     $extension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));

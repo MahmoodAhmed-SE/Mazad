@@ -1,103 +1,146 @@
 <?php
-  session_start();
-  
-  if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+session_start();
 
-	require('../../services/getUser.php');
-	
-	$user = getUser($pdo, $id, $role);
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
 
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit;
+    }
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit;
 }
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
-}
-
-
-
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>LOGIN PAGE</title>
-<style type="text/css">
-.auto-style1 {
-	font-size: x-large;
-}
-.auto-style2 {
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	border: 4px solid #800000;
-}
-.auto-style5 {
-	font-size: x-large;
-	text-align: left;
-}
-.auto-style6 {
-	color: #FF0000;
-}
-.auto-style7 {
-	text-align: center;
-	border: 2px solid #000000;
-	font-size: x-large;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+			text-align: center;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #9DC8C6;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .welcome {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .logout-link {
+            font-size: 16px;
+            color: #FF0000;
+            text-decoration: none;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            width: 200px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .menu-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .menu-item a {
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .menu-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
+<body>
 
-<table style="width: 100%">
-	<tr>
-		<td class="auto-style5" style="width: 537px"><strong>&nbsp;&nbsp; Welcome, <?php echo ucfirst($user['administrator_name']); ?>!</strong>
-		</td>
-		<td class="auto-style5" style="width: 59px"><strong><br />
-		<span class="auto-style6"><a href='../../handle/handleLogout.php'>LOGOUT</a></span><br />
-		</strong></td>
-	</tr>
-</table>
-<table class="auto-style3" style="width: 100%">
-	<tr>
-		<td class="auto-style2" colspan="3" style="height: 271px"><strong>
-		<br class="auto-style1" />
-		<img alt="" height="177" src="../../assets/ChangePassword.png" width="177" /><br class="auto-style1" />
-		<span class="auto-style1"><a href="../ForgetPassword.php">Change 
-		password</a><br></span></strong></td>
-	</tr>
-	<tr>
-		<td class="auto-style7" style="height: 288px"><strong>
-		<img alt="" height="177" src="../../assets/ViewList.png" width="177" /><br />
-		<a href="ViewSellerByAdmin.php">List of Sellers for Approval</a></strong></td>
-		<td class="auto-style7" style="height: 288px">
-		<img alt="" height="177" src="../../assets/denied-1.png" width="177" /><br>List of Denied Sellers</td>
-		<td class="auto-style7" style="height: 288px">
-		<img alt="" height="177" src="../../assets/approval.png" width="177" /><br>List of Approved Sellers</td>
-	</tr>
-	<tr>
-		<td class="auto-style7" style="height: 312px"><strong>
-		<br />
-		<img alt="" height="177" src="../../assets/bidders.png" width="177" /><br class="auto-style1" />
-		</strong><span class="auto-style1">
-		<strong><a href="ViewBidderByAdmin.php">List of Bidders for Approval</a></strong></span><td class="auto-style7" style="height: 312px">
-		<img alt="" height="177" src="../../assets/forbidden.png" width="177" /><br>List of 
-		Denied Bidders</td>
-		</td>
-		<td class="auto-style7" style="height: 312px">
-		<br>
-		<img alt="" height="177" src="../../assets/approve.png" width="177" /><br>List of 
-		Approved Bidders</td>
-	</tr>
-	</table>
+    <div class="container">
+        <h1>Welcome, <?php echo ucfirst($user['administrator_name']); ?>!</h1>
+        <p class="welcome">Please choose an option below:</p>
+        <p><a class="logout-link" href="../../handle/handleLogout.php">Logout</a></p>
+
+        <div class="menu">
+            <div class="menu-item">
+                <img src="../../assets/ChangePassword.png" alt="Change Password">
+                <a href="../ForgetPassword.php">Change Password</a>
+            </div>
+            <div class="menu-item">
+                <img src="../../assets/ViewList.png" alt="View List">
+                <a href="ViewSellerByAdmin.php">List of Sellers for Approval</a>
+            </div>
+            <div class="menu-item">
+                <img src="../../assets/denied-1.png" alt="Denied Sellers">
+                <a href="ListOfDeniedSellers.php">List of Denied Sellers</a>
+            </div>
+            <div class="menu-item">
+                <img src="../../assets/approval.png" alt="Approved Sellers">
+                <a href="ListOfApprovedSellers.php">List of Approved Sellers</a>
+            </div>
+            <div class="menu-item">
+                <img src="../../assets/bidders.png" alt="Bidders">
+                <a href="ViewBidderByAdmin.php">List of Bidders for Approval</a>
+            </div>
+            <div class="menu-item">
+                <img src="../../assets/forbidden.png" alt="Denied Bidders">
+                <a href="ListOfDeniedBidders.php">List of Denied Bidders</a>
+            </div>
+            <div class="menu-item">
+                <img src="../../assets/approve.png" alt="Approved Bidders">
+                <a href="ListOfApprovedBidders.php">List of Approved Bidders</a>
+            </div>
+        </div>
+    </div>
 
 </body>
 

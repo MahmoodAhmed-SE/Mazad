@@ -3,101 +3,144 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
-	
-	$user = getUser($pdo, $id, $role);
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
 
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit();
+    }
 
-	$query = $pdo->prepare('SELECT * FROM Bids WHERE bidder_id = :bidder_id');
-	$query->bindParam(':bidder_id', $id);
-	$query->execute();
+    $query = $pdo->prepare('SELECT * FROM Bids WHERE bidder_id = :bidder_id;');
+    $query->bindParam(':bidder_id', $id);
+    $query->execute();
 
+    $bidder_bids = $query->fetchAll(PDO::FETCH_ASSOC);
+    
+    foreach ($bidder_bids as &$bid) {
+        $q = $pdo->prepare('SELECT product_name FROM Products WHERE product_id = :product_id');
+        $q->bindParam(':product_id', $bid['product_id']);
+        $q->execute();
 
-	$bidder_bids = $query->fetchAll(PDO::FETCH_ASSOC);
-	
-	$bidder_bids_with_product_info[] = array();
-
-	foreach ($bidder_bids as $bid) {
-		$q = prepare('SELECT product_name FROM Products WHERE product_id = :product_id');
-		$q->bindParam(':product_id', $bid['product_id']);
-		$q->exectute();
-
-		$product_name = $q->fetch(PDO::FETCH_ASSOC);
-		$product_name = $product_name['product_name'];
-		
-		$bidder_bids_with_product_info[] = array($bidder_bids, $product_name);
-	}
+        $product = $q->fetch(PDO::FETCH_ASSOC);
+        
+        $bid['product_name'] = $product['product_name'];
+        
+        if (isset($product['bidder_id'])) {
+            if ($product['bidder_id'] == $id) {
+                $bid['bid_status'] = "Approved";
+            } else {
+                $bid['bid_status'] = "Denied";
+            }
+        } else {
+            $bid['bid_status'] = "Active";
+        }
+    }
+    unset($bid);
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit();
 }
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
-}
-
-
 ?>
 
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Forget Password</title>
-<style type="text/css">
-.auto-style1 {
-	text-align: center;
-}
-.auto-style2 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style3 {
-	font-size: large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	border: 4px solid #800000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Submitted Bids</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9DC8C6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        td a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
-
-<center>
-<h1 class="auto-style1">LIST OF BIDS SUBMITED</h1>
-&nbsp;<table style="width: 100%" class="auto-style4">
-	<tr>	
-		<td class="auto-style2" style="width: 385px">Product name</td>
-		<td class="auto-style2">Bid Price</td>
-		<td class="auto-style2">Status</td>
-	</tr>
-	<?php
-	foreach ($bidder_bids_with_product_info as $info) {
-		echo '<tr>';
-		echo '	<td class="auto-style2" style="width: 385px">' . $info[1] . '</td>';
-		echo '	<td class="auto-style2">' . $info[0]['bid_price'] . '</td>';
-		echo '	<td class="auto-style2">Not decided yet!</td>';
-		echo '</tr>';
-	}
-	?>
-	</table>
-
-<p>&nbsp;</p>
-
-<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
-</center>
+<body>
+    <div class="container">
+        <h1>List of Submitted Bids</h1>
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Bid Price</th>
+                <th>Status</th>
+                <th>Options</th>
+            </tr>
+            <?php foreach ($bidder_bids as $info) : ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($info['product_name']); ?></td>
+                    <td><?php echo htmlspecialchars($info['bid_price']); ?> OMR</td>
+                    <td><?php echo htmlspecialchars($info['bid_status']); ?></td>
+                    <td>
+                        <a href="UpdateBid.php?bid_id=<?php echo $info['bid_id']; ?>&product_name=<?php echo $info['product_name']; ?>&bid_price=<?php echo $info['bid_price']; ?>">Update</a> / 
+                        <a href="../../handle/bidder/handleCancelingBid.php?bid_id=<?php echo $info['bid_id']; ?>">Close</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+        <a class="back-link" href="./B_Menu.php">Back To Dashboard</a>
+    </div>
 </body>
 
 </html>

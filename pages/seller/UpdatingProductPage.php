@@ -1,128 +1,190 @@
 <?php
 session_start();
 
+// Check if user is logged in
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
+    $pdo = require('../../mysql_db_connection.php');
 
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
+    require('../../services/getUser.php');
 
-	$user = getUser($pdo, $id, $role);
+    $user = getUser($pdo, $id, $role);
 
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+    // Redirect to login page if user is not found
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+    }
 
-	$query = $pdo->prepare('SELECT * from Products where seller_id = :seller_id;');
-	$query->bindParam(':seller_id', $id);
+    $product_id = $_GET['product_id'];
 
-	$query->execute();
+    $query = $pdo->prepare('SELECT * FROM Products WHERE product_id = :product_id;');
+    $query->bindParam(':product_id', $product_id);
 
-	$products = $query->fetchAll(PDO::FETCH_ASSOC);
-}
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
+    $query->execute();
+
+    $product = $query->fetch(PDO::FETCH_ASSOC);
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
 }
 
 ?>
 
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title></title>
-<style type="text/css">
-.auto-style1 {
-	border: 2px solid #000000;
-}
-.auto-style2 {
-	border: 4px solid #800000;
-}
-.auto-style3 {
-	font-size: large;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-.auto-style6 {
-	border: 2px solid #000000;
-	text-align: left;
-}
-</style>
+    <meta content="en-us" http-equiv="Content-Language" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Update Product</title>
+    <style type="text/css">
+        body {
+            background-color: #9DC8C6;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #000;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .submit-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+
+        .cancel-button {
+            display: inline-block;
+            background-color: #f44336;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .cancel-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #45a049;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
-<center>
-<form action="../../handle/seller/handleUpdatingProduct.php" method="post" style="width: 688px">
-	<table class="auto-style2" style="width: 100%">
-		<tr>
-			<td class="auto-style4" colspan="2">Update a product</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Choose a product to 
-			update:</td>
-			<td class="auto-style6">
-			&nbsp;
-			<select name="product_id" style="width: 122px">
-			<?php
-				foreach($products as $product) {
-					echo "<option value=" . $product['product_id'] . ">" . $product['product_name'] . "</option>";
-				}
-			?>
-			</select></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Updated Product Name:</td>
-			<td class="auto-style6">
-			<input name="updated_name" style="width: 102px" type="text" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="height: 64px; width: 271px">Updated Product 
-			Description:</td>
-			<td class="auto-style6">
-			<textarea name="updated_description" style="width: 311px; height: 53px"></textarea></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Updated Product Minimum Auction 
-			Price (Omani Rial):</td>
-			<td class="auto-style6">
-			<input name="updated_product_minimum_bidding_price" style="width: 102px" type="text" />&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Updated Product auction 
-			starting date:</td>
-			<td class="auto-style6">
-			<input name="updated_product_start_date" type="date" value='<?php echo date('Y-m-d'); ?>' readonly/></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Updated Product auction ending 
-			date:</td>
-			<td class="auto-style6">
-			<input name="updated_product_last_date" type="date"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style1" colspan="2"><br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="submit" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
-		</tr>
-	</table>
-</form>
+<body>
+    <div class="container">
+        <h1>Update product:</h1>
+        <form action="../../handle/handleUpdatingProduct.php" method="post">
+            <table>
+                <tr>
+                    <td>Product to update:</td>
+                    <td>
+                        <input name="product_id" value="<?php echo $product['product_id']; ?>" type="hidden">
+                        <strong><?php echo $product['product_name']; ?></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Updated Product Name:</td>
+                    <td><input name="updated_name" style="width: 200px;" type="text" value="<?php echo $product['product_name']; ?>"></td>
+                </tr>
+                <tr>
+                    <td>Updated Product Description:</td>
+                    <td><textarea name="updated_description" style="width: 300px; height: 100px;"><?php echo $product['product_description']; ?></textarea></td>
+                </tr>
+                <tr>
+                    <td>Updated Product Minimum Auction Price (Omani Rial):</td>
+                    <td><input name="updated_product_minimum_bidding_price" style="width: 100px;" type="text" value="<?php echo $product['product_minimum_bidding_price']; ?>"> OMR</td>
+                </tr>
+                <tr>
+                    <td>Updated Product Type:</td>
+                    <td>
+                        <select name="product_type" style="width: 200px;">
+                            <?php
+                            $q = $pdo->prepare('SELECT * from product_type;');
+                            $q->execute();
 
-<p class="auto-style5"><a href="./S_Menu.php">Back To Dashboard</a></p>
-</center>
+                            $rows = $q->fetchAll(PDO::FETCH_ASSOC);
+
+                            foreach ($rows as $row) {
+                                echo "<option value=" . $row['product_type_id'] . ">" . $row['product_type'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Updated Product Image:</td>
+                    <td><input name="product_image" type="file" value="<?php echo $product['product_image']; ?>"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="submit-button" name="submit" type="submit" value="UPDATE">
+                        <input class="cancel-button" name="reset" type="reset" value="CANCEL">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <p class="back-link"><a href="./S_Menu.php">Back To Dashboard</a></p>
+    </div>
 </body>
 
 </html>
+

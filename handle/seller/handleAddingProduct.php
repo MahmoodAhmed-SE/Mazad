@@ -4,7 +4,7 @@ if(isset($_POST['submit'])) {
     session_start();
 
     if (isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'seller') {
-        $pdo = require('../mysql_db_connection.php');
+        $pdo = require('../../mysql_db_connection.php');
 
         $id = $_SESSION['user_id'];
         $role = $_SESSION['role'];
@@ -14,7 +14,7 @@ if(isset($_POST['submit'])) {
             header('Location: /Mazad/pages/LoginPage.php');
         }
 
-        require('../services/getUser.php');
+        require('../../services/getUser.php');
 
         $user = getUser($pdo, $id, $role);
 
@@ -30,8 +30,8 @@ if(isset($_POST['submit'])) {
         $product_image = $_FILES['product_image'];
         $seller_id = $user['seller_id'];
         
-        require('../services/uploadImage.php');
-        $filename = upload($product_image, 'product_images');
+        require('../../services/uploadImage.php');
+        $filename = upload($product_image, "../../uploads/product_images/");
 
 
         $query = $pdo->prepare('INSERT INTO Products(product_name, product_minimum_bidding_price, product_description, product_start_date, product_last_date, product_status, seller_id, product_type_id, product_image, bidder_id) 

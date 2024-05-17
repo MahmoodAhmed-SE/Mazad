@@ -21,7 +21,7 @@ if(isset($_POST['submitButton'])) {
 	    
 	    require('../services/uploadImage.php');
 	    
-		$filename = upload($residentCard, "card_images");
+		$filename = upload($residentCard, "../uploads/card_images/");
 
 		if ($filename == null) {
 			header('Location: /Mazad/pages/Registration.php');
@@ -64,11 +64,12 @@ if(isset($_POST['submitButton'])) {
 	    			
 	    		case 'bidder':
 	    			//Preparing INSERT statement
-	    			$query = $pdo->prepare("INSERT INTO Bidders(bidder_name, bidder_email, bidder_password, bidder_security_question, bidder_security_answer, bidder_resident_id_number, bidder_resident_card_image, bidder_status,administrator_id) VALUES(:name, :email, :pword, :securityQuestion, :securityAnswer, :idNumber, :residentCard, FALSE,0);");
+	    			$query = $pdo->prepare("INSERT INTO Bidders(bidder_name, bidder_email, bidder_password, bidder_security_question, bidder_security_answer, bidder_resident_id_number, bidder_resident_card_image, bidder_status,administrator_id, bidder_phone) VALUES(:name, :email, :pword, :securityQuestion, :securityAnswer, :idNumber, :residentCard, FALSE,0, :phoneNumber);");
 	    			
 	    			// Binding parameters
 				    $query->bindParam(':name', $name);
 				    $query->bindParam(':email', $email);
+					$query->bindParam(':phoneNumber', $phoneNumber);
 				    $query->bindParam(':pword', $pword);
 				    $query->bindParam(':securityQuestion', $securityQuestion);
 				    $query->bindParam(':securityAnswer', $securityAnswer);

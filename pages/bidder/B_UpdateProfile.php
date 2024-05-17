@@ -3,112 +3,153 @@
 session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-	$pdo = require('../../mysql_db_connection.php');
-	$id = $_SESSION['user_id'];
-	$role = $_SESSION['role'];
+    $pdo = require('../../mysql_db_connection.php');
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
-	
-	$user = getUser($pdo, $id, $role);
+    require('../../services/getUser.php');
+    
+    $user = getUser($pdo, $id, $role);
 
-	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
-	}
+    if ($user === false) {
+        header('Location: /Mazad/pages/LoginPage.php');
+        exit();
+    }
 
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+    exit();
 }
-else {
-	header('Location: /Mazad/pages/LoginPage.php');
-}
-
-
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-<meta content="en-us" http-equiv="Content-Language" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<title>Enter Full Name</title>
-<style type="text/css">
-.auto-style1 {
-	border: 2px solid #000000;
-}
-.auto-style2 {
-	border: 4px solid #800000;
-}
-.auto-style3 {
-	font-size: large;
-	border: 2px solid #000000;
-}
-.auto-style4 {
-	font-size: x-large;
-	text-align: center;
-	border: 2px solid #000000;
-}
-.auto-style5 {
-	font-size: x-large;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #9DC8C6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-actions input {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-actions input[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .form-actions input[type="reset"] {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: block;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body style="background-color: #9DC8C6">
-<center>
-<form action="../../handle/bidder/handleUpdatingProfile.php" method="post" style="width: 688px">
-	<table class="auto-style2" style="width: 100%">
-		<tr>
-			<td class="auto-style4" colspan="2"><strong>Update Bidder Registration</strong></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Bidder Name:</td>
-			<td class="auto-style1">
-			<input name="bidder_name" style="width: 246px" type="text" value="<?php $user['bidder_name'] ?>"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="height: 64px; width: 271px">Email 
-			Address:</td>
-			<td class="auto-style1">
-			<input name="bidder_email" style="width: 243px" type="text" value="<?php $user['bidder_email'] ?>"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Phone Number:</td>
-			<td class="auto-style1">
-			<input name="bidder_phone" style="width: 242px" type="text" value="<?php $user['bidder_phone'] ?>"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Resident ID Number:</td>
-			<td class="auto-style1">
-			<input name="bidder_resident_id_number" style="width: 172px" type="text" value="<?php $user['bidder_resident_id_number'] ?>"/>&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Resident Card <em>
-			(Please upload)</em>:</td>
-			<td class="auto-style1">
-			<input name="bidder_resident_card_image" style="width: 305px" type="file"/></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Security Question:</td>
-			<td class="auto-style1">
-			<select name="bidder_security_question" style="width: 407px">
-			<option value="Who is your favorite person?">Who is your favorite person?
-			</option>
-			</select></td>
-		</tr>
-		<tr>
-			<td class="auto-style3" style="width: 271px">Security Answer:</td>
-			<td class="auto-style1">
-			<input name="bidder_security_answer" type="text" style="width: 225px" value="<?php $user['bidder_security_answer'] ?>"/></td>
-		</tr>
-		<tr>
-			<td class="auto-style1" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-			<input name="submit" type="submit" value="UPDATE" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-			&nbsp;<input name="reset" type="reset" value="CANCEL" />&nbsp;</td>
-		</tr>
-	</table>
-</form>
-
-<p class="auto-style5"><a href="./B_Menu.php">Back To Dashboard</a></p>
-</center>
+<body>
+    <div class="container">
+        <h1>Update Bidder Registration</h1>
+        <form action="../../handle/bidder/handleUpdatingProfile.php" method="post">
+            <div class="form-group">
+                <label for="bidder_name">Bidder Name:</label>
+                <input type="text" id="bidder_name" name="bidder_name" value="<?php echo htmlspecialchars($user['bidder_name']); ?>">
+            </div>
+            <div class="form-group">
+                <label for="bidder_email">Email Address:</label>
+                <input type="text" id="bidder_email" name="bidder_email" value="<?php echo htmlspecialchars($user['bidder_email']); ?>">
+            </div>
+            <div class="form-group">
+                <label for="bidder_phone">Phone Number:</label>
+                <input type="text" id="bidder_phone" name="bidder_phone" value="<?php echo htmlspecialchars($user['bidder_phone']); ?>">
+            </div>
+            <div class="form-group">
+                <label for="bidder_resident_id_number">Resident ID Number:</label>
+                <input type="text" id="bidder_resident_id_number" name="bidder_resident_id_number" value="<?php echo htmlspecialchars($user['bidder_resident_id_number']); ?>">
+            </div>
+            <div class="form-group">
+                <label for="bidder_resident_card_image">Resident Card (Please upload):</label>
+                <input type="file" id="bidder_resident_card_image" name="bidder_resident_card_image">
+            </div>
+            <div class="form-group">
+                <label for="bidder_security_question">Security Question:</label>
+                <select id="bidder_security_question" name="bidder_security_question">
+                    <option value="Who is your favorite person?">Who is your favorite person?</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="bidder_security_answer">Security Answer:</label>
+                <input type="text" id="bidder_security_answer" name="bidder_security_answer" value="<?php echo htmlspecialchars($user['bidder_security_answer']); ?>">
+            </div>
+            <div class="form-actions">
+                <input type="submit" value="UPDATE">
+                <input type="reset" value="CANCEL">
+            </div>
+        </form>
+        <a class="back-link" href="./B_Menu.php">Back To Dashboard</a>
+    </div>
 </body>
 
 </html>
