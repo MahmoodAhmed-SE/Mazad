@@ -26,9 +26,9 @@ if (isset($_POST['submit'])) {
         $query->execute();
 
         echo '<script>
-                alert("Bid has been updated successfully!");
-                window.location.href = "/Mazad/pages/bidder/B_Menu.php";
-                </script>';
+            alert("Bid has been updated successfully!");
+            window.location.href = "/Mazad/pages/bidder/B_Menu.php";
+            </script>';
     }
     else {
         header('Location: /Mazad/pages/LoginPage.php');

@@ -10,8 +10,10 @@ if(isset($_POST['submit'])) {
         $role = $_SESSION['role'];
 
         if ($role !== 'seller')  {
-            // print('bidder or administrators are not allowed to access this page!');
-            header('Location: /Mazad/pages/LoginPage.php');
+            echo '<script>
+            alert("Bidder or administrators are not allowed to access this page!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';;
         }
 
         require('../../services/getUser.php');
@@ -19,7 +21,10 @@ if(isset($_POST['submit'])) {
         $user = getUser($pdo, $id, $role);
 
         if ($user === false) {
-            header('Location: /Mazad/pages/LoginPage.php');
+            echo '<script>
+                alert("Either Your Registration is Pending or Not Registered yet!");
+                window.location.href = "/Mazad/pages/HomePage.php";
+                </script>';
         }
         
         $product_name = $_POST['product_name'];
@@ -57,7 +62,10 @@ if(isset($_POST['submit'])) {
         $query->execute();
 
 
-        print('Insertion is successful!');
+        echo '<script>
+            alert("Product has been published!");
+            window.location.href = "/Mazad/pages/seller/S_Menu.php";
+            </script>';
     }
     else {
         header('Location: /Mazad/pages/LoginPage.php');

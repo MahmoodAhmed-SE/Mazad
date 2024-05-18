@@ -46,7 +46,10 @@ if(isset($_POST['submit'])) {
                         $query->bindParam(':p', $new_password);
                         $query->bindParam(':id', $id);
                     } else {
-                        print('Make sure you enter the correct password!');
+                        echo '<script>
+                        alert("Make sure you enter the correct password!");
+                        window.location.href = "/Mazad/pages/LoginPage.php";
+                        </script>';
                     }
                     break;
                     
@@ -56,7 +59,10 @@ if(isset($_POST['submit'])) {
                         $query->bindParam(':p', $new_password);
                         $query->bindParam(':id', $id);
                     } else {
-                        print('Make sure you enter the correct password!');
+                        echo '<script>
+                        alert("Make sure you enter the correct password!");
+                        window.location.href = "/Mazad/pages/LoginPage.php";
+                        </script>';
                     }	    
                     break;
                 case 'bidder':
@@ -65,7 +71,10 @@ if(isset($_POST['submit'])) {
                         $query->bindParam(':p', $new_password);
                         $query->bindParam(':id', $id);
                     } else {
-                        print('Make sure you enter the correct password!');
+                        echo '<script>
+                        alert("Make sure you enter the correct password!");
+                        window.location.href = "/Mazad/pages/LoginPage.php";
+                        </script>';
                     }		    
                     break;
                     

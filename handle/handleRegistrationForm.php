@@ -24,9 +24,12 @@ if(isset($_POST['submitButton'])) {
 		$filename = upload($residentCard, "../uploads/card_images/");
 
 		if ($filename == null) {
-			header('Location: /Mazad/pages/Registration.php');
 
-			echo '<script>alert("Sorry, there was an error uploading your file");</script>';
+			echo '<script>
+				alert("Sorry, there was an error uploading your file!");
+				window.location.href = "/Mazad/pages/Registration.php";
+				</script>';
+			
 
 			return;
 		}
