@@ -1,21 +1,6 @@
-Authentication session:
-# s menu
-# s update profile 
-- TO-DO: 
-1. it needs to handle image uploading
-2. header
-# handle upddate seller profile
-- TO-DO: 
-1. it needs to handle image uploading
-2. header
-# add product page
-# handle adding product
-- TO-DO: 
-1. it needs to handle image uploading
-2. header
-3. handle prod_default_status, seller_id, product_type_id, product_image, bidder_id
-# handle changing password
-# change password page
-# updating product page
-# handle updating product
-# view list of bidders 
+# Introduction
+This is a Diploma Course Project, done and supervised in the University of Technology and Applied Sciences - Shinas branch.
+Developed by: Mahmood Al Dhahli, Fahad Al Balushi, and Salim Al muqbali.
+Supervised by: Edgardo JR.Alfaro Dalan.
+
+Main idea: Developing Unified Platform for General Auction System for Omanis.
