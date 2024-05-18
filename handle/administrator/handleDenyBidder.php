@@ -11,7 +11,10 @@
 	$user = getUser($pdo, $id, $role);
 
 	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
+		echo '<script>
+			alert("Either Your Registration is Pending or Not Registered yet!");
+			window.location.href = "/Mazad/pages/HomePage.php";
+			</script>';
 	}
 
 }
@@ -29,14 +32,17 @@ else {
 
 <body>
 <?php
-$sid = $_GET["sid"];
+$bid = $_GET["bid"];
 $query = $pdo->prepare("UPDATE bidders SET bidder_status='0', administrator_id =:aid WHERE bidder_id =:bid;");
 $query->bindParam(':aid', $id);
 $query->bindParam(':bid', $bid);
 $query->execute();
 
-echo "Bidder Profile has been denied.<br><br>";
-echo "<a href='ViewBidderByAdmin.php'>BACK</a>";
+
+echo '<script>
+	alert("Bidder Profile has been denied!");
+	window.location.href = "/Mazad/pages/seller/ViewBidderByAdmin.php";
+	</script>';
 ?>
 </body>
 

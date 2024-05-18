@@ -14,7 +14,10 @@ if (isset($_POST['submit'])) {
         $user = getUser($pdo, $id, $role);
 
         if ($user === false) {
-            header('Location: /Mazad/pages/LoginPage.php');
+            echo '<script>
+                alert("Either Your Registration is Pending or Not Registered yet!");
+                window.location.href = "/Mazad/pages/HomePage.php";
+                </script>';
         }
 
         $seller_name = $_POST['seller_name'];
@@ -42,7 +45,10 @@ if (isset($_POST['submit'])) {
         $query->execute();
 
 
-        print('Updated successfully');
+        echo '<script>
+                alert("Profile Updated Successfully!");
+                window.location.href = "/Mazad/pages/seller/S_Menu.php";
+                </script>';
     }
     else {
         header('Location: /Mazad/pages/LoginPage.php');

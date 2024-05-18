@@ -18,7 +18,10 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role']
     $user = getUser($pdo, $id, $role);
 
     if ($user === false) {
-        header('Location: /Mazad/pages/LoginPage.php');
+        echo '<script>
+            alert("Either Your Registration is Pending or Not Registered yet!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
     }
 
     $bidder_id = $_GET['bidder_id'];

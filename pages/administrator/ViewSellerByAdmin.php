@@ -99,7 +99,7 @@ session_start();
 
             <?php
             $pdo = require('../../mysql_db_connection.php');
-            $query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_status=0;");
+            $query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_status=0 and administrator_id is null;");
             $query->execute();
             $rows = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($rows as $row) {

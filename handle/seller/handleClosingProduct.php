@@ -25,7 +25,10 @@ if(isset($_POST['submit'])) {
         
         
         if ($user === false) {
-            print('Please register! or Your Registration is Pending.');
+            echo '<script>
+            alert("Either Your Registration is Pending or Not Registered yet!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
         }
         
 
@@ -34,7 +37,10 @@ if(isset($_POST['submit'])) {
         $query->bindParam(':product_id', $product_id);
         $query->execute();
         
-        print("product closed successfully, back to seller menu!");
+        echo '<script>
+        alert("Product closed successfully!");
+        window.location.href = "/Mazad/pages/seller/S_Menu.php";
+        </script>';
     }
     else {
         header('Location: /Mazad/pages/LoginPage.php');

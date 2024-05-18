@@ -89,7 +89,7 @@ session_start();
 <body>
 
     <div class="container">
-        <p class="title"><strong>View Seller Details</strong></p>
+        <p class="title"><strong>View Bidder Details</strong></p>
         <table>
             <tr>
                 <th>Contact</th>
@@ -99,7 +99,7 @@ session_start();
 
             <?php
             $pdo = require('../../mysql_db_connection.php');
-            $query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_status=0;");
+            $query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_status=0 and administrator_id is null;");
             $query->execute();
             $rows = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($rows as $row) {
@@ -110,8 +110,8 @@ session_start();
                 echo '<strong>Bidder Email:</strong> ' . $row['bidder_email'] . '<br>';
                 echo '<strong>Bidder Phone:</strong> ' . $row['bidder_phone'] . '</td>';
                 echo '<td class="action-column">';
-                echo "<a href='../../handle/administrator/handleApproveBidder.php?sid={$row['bidder_id']}' onclick=\"return confirm('Do you want to approve the bidder?');\">Approve</a><br><br>";
-                echo "<a href='../../handle/administrator/handleDenyBidder.php?sid={$row['bidder_id']}' onclick=\"return confirm('Do you want to deny the bidder?');\">Deny</a>";
+                echo "<a href='../../handle/administrator/handleApproveBidder.php?bid={$row['bidder_id']}' onclick=\"return confirm('Do you want to approve the bidder?');\">Approve</a><br><br>";
+                echo "<a href='../../handle/administrator/handleDenyBidder.php?bid={$row['bidder_id']}' onclick=\"return confirm('Do you want to deny the bidder?');\">Deny</a>";
                 echo '</td>';
                 echo '<td colspan="2">';
                 echo '<strong>Resident Card ID:</strong> ' . $row['bidder_resident_id_number'] . '<br>';

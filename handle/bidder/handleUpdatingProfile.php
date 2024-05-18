@@ -14,7 +14,10 @@ if (isset($_POST['submit'])) {
         $user = getUser($pdo, $id, $role);
 
         if ($user === false) {
-            header('Location: /Mazad/pages/LoginPage.php');
+            echo '<script>
+                alert("Either Your Registration is Pending or Not Registered yet!");
+                window.location.href = "/Mazad/pages/HomePage.php";
+                </script>';
         }
 
         
@@ -43,9 +46,11 @@ if (isset($_POST['submit'])) {
         $query->execute();
 
 
-        header('Location: /Mazad/pages/bidder/B_Menu');
 
-        echo '<script>alert("Profile updated successfully!")</script>';
+        echo '<script>
+            alert("Profile updated successfully!");
+            window.location.href = "/Mazad/pages/bidder/B_Menu.php";
+            </script>';
         exit();
     }
     else {

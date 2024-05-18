@@ -11,7 +11,10 @@
 	$user = getUser($pdo, $id, $role);
 
 	if ($user === false) {
-		header('Location: /Mazad/pages/LoginPage.php');
+		echo '<script>
+			alert("Either Your Registration is Pending or Not Registered yet!");
+			window.location.href = "/Mazad/pages/HomePage.php";
+			</script>';
 	}
 
 }
@@ -35,8 +38,11 @@ $query->bindParam(':aid', $id);
 $query->bindParam(':sid', $sid);
 $query->execute();
 
-echo "Seller Profile has been approved.<br><br>";
-echo "<a href='ViewSellerByAdmin.php'>BACK</a>";
+
+echo '<script>
+	alert("Seller Profile has been approved!");
+	window.location.href = "/Mazad/pages/seller/ViewSellerByAdmin.php";
+	</script>';
 ?>
 </body>
 

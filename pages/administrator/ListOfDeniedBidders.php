@@ -108,7 +108,7 @@ else {
 
             <?php
             $pdo = require('../../mysql_db_connection.php');
-            $query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_status=0;");
+            $query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_status=0 and administrator_id is not null;");
             $query->execute();
             $rows = $query->fetchAll(PDO::FETCH_ASSOC);
             foreach ($rows as $row) {

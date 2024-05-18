@@ -3,9 +3,17 @@
 if(isset($_POST['submit'])) {
     if (empty($_POST['password']) || empty($_POST['new_password']) || empty($_POST['retype_new_password'])) {
         print("Please make sure you filled all entries!");   
+        echo '<script>
+            alert("Please make sure you filled all entries!");
+            window.location.href = "/Mazad/pages/ChangePassword.php";
+            </script>';
     }
     else if ($_POST['new_password'] !== $_POST['retype_new_password']) {
         print("Please make sure you retype the same password!");   
+        echo '<script>
+            alert("Please make sure you retype the same password!");
+            window.location.href = "/Mazad/pages/ChangePassword.php";
+            </script>';
     }
     else {
         session_start();
@@ -24,7 +32,10 @@ if(isset($_POST['submit'])) {
             
             
             if ($user === false) {
-                print('Please register! or Your Registration is Pending.');
+                echo '<script>
+                alert("Either Your Registration is Pending or Not Registered yet!");
+                window.location.href = "/Mazad/pages/HomePage.php";
+                </script>';
             }
     
             $query = NULL;
@@ -65,6 +76,10 @@ if(isset($_POST['submit'])) {
             
             if($query && $query->execute()) {
                 print("password changed successfully!");
+                echo '<script>
+                alert("Password changed successfully!");
+                window.location.href = "/Mazad/pages/LoginPage.php";
+                </script>';
             }          
 
         }

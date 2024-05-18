@@ -7,7 +7,10 @@ $role = $_POST['role'];
 
 if (isset($_POST['submitButton'])) {
 	if (empty($name) || empty($pword) || empty($role)) {
-		print("not all fields are filled");
+		echo '<script>
+            alert("Not All fields entered!");
+            window.location.href = "/Mazad/pages/LoginPage.php";
+            </script>';
 	}
 	else {
 		// connecting to sql database
@@ -53,7 +56,10 @@ if (isset($_POST['submitButton'])) {
 		
 		
 		if ($user === false) {
-			print('Please register! or Your Registration is Pending.');
+			echo '<script>
+            alert("Either Your Registration is Pending or Not Registered yet!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
 		}
 		else {
 			session_start();

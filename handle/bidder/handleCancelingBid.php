@@ -13,7 +13,10 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
     $user = getUser($pdo, $id, $role);
 
     if ($user === false) {
-        header('Location: /Mazad/pages/LoginPage.php');
+        echo '<script>
+            alert("Either Your Registration is Pending or Not Registered yet!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
     }
 
     $bid_id = $_GET['bid_id'];
@@ -25,9 +28,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
     $query->execute();
 
     
-    header('Location: /Mazad/pages/bidder/B_Menu');
+    echo '<script>
+        alert("Bid has been canceled successfully!");
+        window.location.href = "/Mazad/pages/bidder/B_Menu.php";
+        </script>';
 
-    echo '<script>alert("Bid has been canceled successfully!")</script>';
     exit();
 }
 else {

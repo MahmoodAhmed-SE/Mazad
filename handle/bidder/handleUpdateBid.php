@@ -14,7 +14,10 @@ if (isset($_POST['submit'])) {
         $user = getUser($pdo, $id, $role);
 
         if ($user === false) {
-            header('Location: /Mazad/pages/LoginPage.php');
+            echo '<script>
+                alert("Either Your Registration is Pending or Not Registered yet!");
+                window.location.href = "/Mazad/pages/HomePage.php";
+                </script>';
         }
 
         $query = $pdo->prepare('UPDATE Bids SET bid_price = :bid_price WHERE bid_id = :bid_id;');
@@ -22,7 +25,10 @@ if (isset($_POST['submit'])) {
         $query->bindParam(':bid_price', $_POST['bid_price']);
         $query->execute();
 
-        echo "Bid has been updated successfully!";
+        echo '<script>
+                alert("Bid has been updated successfully!");
+                window.location.href = "/Mazad/pages/bidder/B_Menu.php";
+                </script>';
     }
     else {
         header('Location: /Mazad/pages/LoginPage.php');
