@@ -50,7 +50,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         $stmt->execute();
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
-        $products_query = $pdo->prepare('SELECT * FROM Products;');
+        $products_query = $pdo->prepare('SELECT * FROM Products WHERE bidder_id is null;');
         $products_query->execute();
         $products = $products_query->fetchAll(PDO::FETCH_ASSOC);
     }

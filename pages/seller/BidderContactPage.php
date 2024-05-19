@@ -72,6 +72,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         .details {
             margin-bottom: 10px;
         }
+        .back-link {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -83,7 +89,10 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
             <p><strong>Bidder Name:</strong> <?php echo $bidder['bidder_name']; ?></p>
             <p><strong>Email:</strong> <?php echo $bidder['bidder_email']; ?></p>
             <p><strong>Phone:</strong> <?php echo $bidder['bidder_phone']; ?></p>
+            
         </div>
+        <br><br>
+        <center><a class="back-link" href="./S_Menu.php">Back To Dashboard</a></center>
     </div>
 </body>
 </html>

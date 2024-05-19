@@ -93,13 +93,13 @@ session_destroy();
                 <tr>
                     <td>Name</td>
                     <td>
-                        <input name="name" style="width: 186px" type="text" />
+                        <input name="name" style="width: 186px" type="text" required/>
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
                     <td>
-                        <input name="password" style="width: 187px" type="password" />
+                        <input name="password" style="width: 187px" type="password" required/>
                     </td>
                 </tr>
                 <tr>
