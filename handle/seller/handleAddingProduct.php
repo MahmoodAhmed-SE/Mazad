@@ -34,29 +34,25 @@ if(isset($_POST['submit'])) {
         $product_last_date = $_POST['product_last_date'];
         $product_image = $_FILES['product_image'];
         $seller_id = $user['seller_id'];
-        
+        $product_type_id = $_POST['product_type_id'];
+
+
         require('../../services/uploadImage.php');
         $filename = upload($product_image, "../../uploads/product_images/");
 
 
         $query = $pdo->prepare('INSERT INTO Products(product_name, product_minimum_bidding_price, product_description, product_start_date, product_last_date, product_status, seller_id, product_type_id, product_image, bidder_id) 
-        VALUES(:product_name, :product_minimum_bidding_price, :product_description, :product_start_date, :product_last_date, :product_status, :seller_id, :product_type_id, :product_image, :bidder_id);');
+        VALUES(:product_name, :product_minimum_bidding_price, :product_description, :product_start_date, :product_last_date, 1, :seller_id, :product_type_id, :product_image, NULL);');
 
-        // to work with:
-        $prod_default_status = '1';
-        $product_type_id = 1;
-        $bidder_id = 1;
 
         $query->bindParam(':product_name', $product_name);
         $query->bindParam(':product_minimum_bidding_price', $product_minimum_bidding_price);
         $query->bindParam(':product_description', $product_description);
         $query->bindParam(':product_start_date', $product_start_date);
         $query->bindParam(':product_last_date', $product_last_date);
-        $query->bindParam(':product_status', $prod_default_status);
         $query->bindParam(':seller_id', $seller_id);
         $query->bindParam(':product_type_id', $product_type_id);
         $query->bindParam(':product_image', $filename);
-        $query->bindParam(':bidder_id', $bidder_id);
 
 
         $query->execute();

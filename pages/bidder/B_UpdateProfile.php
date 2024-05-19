@@ -115,36 +115,36 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         <form action="../../handle/bidder/handleUpdatingProfile.php" method="post">
             <div class="form-group">
                 <label for="bidder_name">Bidder Name:</label>
-                <input type="text" id="bidder_name" name="bidder_name" value="<?php echo htmlspecialchars($user['bidder_name']); ?>">
+                <input type="text" id="bidder_name" name="bidder_name" value="<?php echo htmlspecialchars($user['bidder_name']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="bidder_email">Email Address:</label>
-                <input type="text" id="bidder_email" name="bidder_email" value="<?php echo htmlspecialchars($user['bidder_email']); ?>">
+                <input type="text" id="bidder_email" name="bidder_email" value="<?php echo htmlspecialchars($user['bidder_email']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="bidder_phone">Phone Number:</label>
-                <input type="text" id="bidder_phone" name="bidder_phone" value="<?php echo htmlspecialchars($user['bidder_phone']); ?>">
+                <input type="text" id="bidder_phone" name="bidder_phone" value="<?php echo htmlspecialchars($user['bidder_phone']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="bidder_resident_id_number">Resident ID Number:</label>
-                <input type="text" id="bidder_resident_id_number" name="bidder_resident_id_number" value="<?php echo htmlspecialchars($user['bidder_resident_id_number']); ?>">
+                <input type="text" id="bidder_resident_id_number" name="bidder_resident_id_number" value="<?php echo htmlspecialchars($user['bidder_resident_id_number']); ?>" required>
             </div>
             <div class="form-group">
                 <label for="bidder_resident_card_image">Resident Card (Please upload):</label>
-                <input type="file" id="bidder_resident_card_image" name="bidder_resident_card_image">
+                <input type="file" id="bidder_resident_card_image" name="bidder_resident_card_image" required>
             </div>
             <div class="form-group">
                 <label for="bidder_security_question">Security Question:</label>
-                <select id="bidder_security_question" name="bidder_security_question">
+                <select id="bidder_security_question" name="bidder_security_question" required>
                     <option value="Who is your favorite person?">Who is your favorite person?</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="bidder_security_answer">Security Answer:</label>
-                <input type="text" id="bidder_security_answer" name="bidder_security_answer" value="<?php echo htmlspecialchars($user['bidder_security_answer']); ?>">
+                <input type="text" id="bidder_security_answer" name="bidder_security_answer" value="<?php echo htmlspecialchars($user['bidder_security_answer']); ?>" required>
             </div>
             <div class="form-actions">
-                <input type="submit" value="UPDATE">
+                <input type="submit" name="submit" value="UPDATE">
                 <input type="reset" value="CANCEL">
             </div>
         </form>

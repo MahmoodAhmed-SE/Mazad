@@ -41,7 +41,7 @@ $query->execute();
 
 echo '<script>
 	alert("Bidder Profile has been approved!");
-	window.location.href = "/Mazad/pages/seller/ViewBidderByAdmin.php";
+	window.location.href = "/Mazad/pages/administrator/A_Menu.php";
 	</script>';
 ?>
 </body>

@@ -20,8 +20,8 @@ if(isset($_POST['submit'])) {
     
         if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
             $pdo = require('../mysql_db_connection.php');
-            $id = isset($_SESSION['user_id']);
-            $role = isset($_SESSION['role']);
+            $id = $_SESSION['user_id'];
+            $role = $_SESSION['role'];
             
             $password = $_POST['password'];
             $new_password = $_POST['new_password'];
@@ -37,43 +37,44 @@ if(isset($_POST['submit'])) {
                 window.location.href = "/Mazad/pages/HomePage.php";
                 </script>';
             }
-    
+
+
             $query = NULL;
             switch ($role) {
                 case 'admin':
-                    if ($user['administrator_password'] === $password) {
+                    if ($user['administrator_password'] == $password) {
                         $query = $pdo->prepare("UPDATE Administrators SET administrator_password = :p WHERE administrator_id = :id;");
                         $query->bindParam(':p', $new_password);
                         $query->bindParam(':id', $id);
                     } else {
                         echo '<script>
                         alert("Make sure you enter the correct password!");
-                        window.location.href = "/Mazad/pages/LoginPage.php";
+                        window.location.href = "/Mazad/pages/ChangePassword.php";
                         </script>';
                     }
                     break;
                     
                 case 'seller':
-                    if ($user['seller_password'] === $password) {
+                    if ($user['seller_password'] == $password) {
                         $query = $pdo->prepare("UPDATE Sellers SET seller_password = :p WHERE seller_id = :id;");
                         $query->bindParam(':p', $new_password);
                         $query->bindParam(':id', $id);
                     } else {
                         echo '<script>
                         alert("Make sure you enter the correct password!");
-                        window.location.href = "/Mazad/pages/LoginPage.php";
+                        window.location.href = "/Mazad/pages/ChangePassword.php";
                         </script>';
                     }	    
                     break;
                 case 'bidder':
-                    if ($user['bidder_password'] === $password) {
+                    if ($user['bidder_password'] == $password) {
                         $query = $pdo->prepare("UPDATE Bidders SET bidder_password = :p WHERE bidder_id = :id;");
                         $query->bindParam(':p', $new_password);
                         $query->bindParam(':id', $id);
                     } else {
                         echo '<script>
                         alert("Make sure you enter the correct password!");
-                        window.location.href = "/Mazad/pages/LoginPage.php";
+                        window.location.href = "/Mazad/pages/ChangePassword.php";
                         </script>';
                     }		    
                     break;
@@ -84,7 +85,6 @@ if(isset($_POST['submit'])) {
                 
             
             if($query && $query->execute()) {
-                print("password changed successfully!");
                 echo '<script>
                 alert("Password changed successfully!");
                 window.location.href = "/Mazad/pages/LoginPage.php";

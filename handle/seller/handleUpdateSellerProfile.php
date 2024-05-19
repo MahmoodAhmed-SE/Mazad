@@ -4,12 +4,12 @@ if (isset($_POST['submit'])) {
     session_start();
 
     if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
-        $pdo = require('../mysql_db_connection.php');
+        $pdo = require('../../mysql_db_connection.php');
 
         $id = $_SESSION['user_id'];
         $role = $_SESSION['role'];
 
-        require('../services/getUser.php');
+        require('../../services/getUser.php');
 
         $user = getUser($pdo, $id, $role);
 

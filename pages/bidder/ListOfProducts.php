@@ -14,7 +14,18 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
     if ($user === false) {
         header('Location: /Mazad/pages/LoginPage.php');
     }
+
+    $q = $pdo->prepare('SELECT product_id FROM Bids WHERE bidder_id = :bidder_id');
+    $q->bindParam(':bidder_id', $id);
+    $q->execute();
+
+    $bids = $q->fetchAll(PDO::FETCH_ASSOC);
     
+    $ids[] = array();
+    foreach ($bids as $bid) {
+        $ids[$bid['product_id']] = true;
+    }
+
     if (isset($_POST['search'])) {
         $searchTerm = $_POST['search'];
         $product_type_id = isset($_POST['product_type_id']) && $_POST['product_type_id'] != 'all' ? $_POST['product_type_id'] : null;
@@ -42,6 +53,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         $products_query = $pdo->prepare('SELECT * FROM Products;');
         $products_query->execute();
         $products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    foreach($products as $key => $product) {
+        if (isset($ids[$product['product_id']]) && $ids[$product['product_id']] == true) {
+            unset($products[$key]);
+        }
     }
 } else {
     header('Location: /Mazad/pages/LoginPage.php');
@@ -135,6 +152,12 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
             font-size: 18px;
             color: #666;
         }
+        .back-link {
+            margin-top: 30px;
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -172,7 +195,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         <?php else : ?>
             <p class="no-products">No products found. Try a different search.</p>
         <?php endif; ?>
+        
     </div>
+    <center><a class="back-link" href="./B_Menu.php">Back To Dashboard</a></center>
 </div>
 
 </body>

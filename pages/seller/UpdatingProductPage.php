@@ -132,7 +132,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 <body>
     <div class="container">
         <h1>Update product:</h1>
-        <form action="../../handle/handleUpdatingProduct.php" method="post">
+        <form action="../../handle/seller/handleUpdatingProduct.php" method="post">
             <table>
                 <tr>
                     <td>Product to update:</td>
@@ -143,20 +143,20 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
                 </tr>
                 <tr>
                     <td>Updated Product Name:</td>
-                    <td><input name="updated_name" style="width: 200px;" type="text" value="<?php echo $product['product_name']; ?>"></td>
+                    <td><input name="updated_name" style="width: 200px;" type="text" value="<?php echo $product['product_name']; ?>" required></td>
                 </tr>
                 <tr>
                     <td>Updated Product Description:</td>
-                    <td><textarea name="updated_description" style="width: 300px; height: 100px;"><?php echo $product['product_description']; ?></textarea></td>
+                    <td><textarea name="updated_description" style="width: 300px; height: 100px;" required><?php echo $product['product_description']; ?></textarea></td>
                 </tr>
                 <tr>
                     <td>Updated Product Minimum Auction Price (Omani Rial):</td>
-                    <td><input name="updated_product_minimum_bidding_price" style="width: 100px;" type="text" value="<?php echo $product['product_minimum_bidding_price']; ?>"> OMR</td>
+                    <td><input name="updated_product_minimum_bidding_price" style="width: 100px;" type="number" value="<?php echo $product['product_minimum_bidding_price']; ?>" required> OMR</td>
                 </tr>
                 <tr>
                     <td>Updated Product Type:</td>
                     <td>
-                        <select name="product_type" style="width: 200px;">
+                        <select name="product_type" style="width: 200px;" required>
                             <?php
                             $q = $pdo->prepare('SELECT * from product_type;');
                             $q->execute();
@@ -172,7 +172,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
                 </tr>
                 <tr>
                     <td>Updated Product Image:</td>
-                    <td><input name="product_image" type="file" value="<?php echo $product['product_image']; ?>"></td>
+                    <td><input name="product_image" type="file" value="<?php echo $product['product_image']; ?>" required></td>
                 </tr>
                 <tr>
                     <td colspan="2">

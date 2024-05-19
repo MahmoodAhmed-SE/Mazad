@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+$_SESSION = array();
+
+session_destroy();
+
+?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 

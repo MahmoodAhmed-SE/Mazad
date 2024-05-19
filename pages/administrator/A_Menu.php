@@ -113,7 +113,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         <div class="menu">
             <div class="menu-item">
                 <img src="../../assets/ChangePassword.png" alt="Change Password">
-                <a href="../ForgetPassword.php">Change Password</a>
+                <a href="../ChangePassword.php">Change Password</a>
             </div>
             <div class="menu-item">
                 <img src="../../assets/ViewList.png" alt="View List">

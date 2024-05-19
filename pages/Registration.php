@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+$_SESSION = array();
+
+session_destroy();
+
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -96,31 +104,31 @@
                 <tr>
                     <td>Email Address:</td>
                     <td>
-                        <input name="email" style="width: 243px" type="email" />
+                        <input name="email" style="width: 243px" type="email" required/>
                     </td>
                 </tr>
                 <tr>
                     <td>Phone Number:</td>
                     <td>
-                        <input name="phoneNumber" style="width: 242px" type="text" />
+                        <input name="phoneNumber" style="width: 242px" type="text" required/>
                     </td>
                 </tr>
                 <tr>
                     <td>Resident ID Number:</td>
                     <td>
-                        <input name="idNumber" style="width: 172px" type="text" />
+                        <input name="idNumber" style="width: 172px" type="text" required/>
                     </td>
                 </tr>
                 <tr>
                     <td>Resident Card (Please upload):</td>
                     <td>
-                        <input name="residentCard" style="width: 305px" type="file" />
+                        <input name="residentCard" style="width: 305px" type="file" required/>
                     </td>
                 </tr>
                 <tr>
                     <td>Security Question:</td>
                     <td>
-                        <select name="securityQuestion" style="width: 407px">
+                        <select name="securityQuestion" style="width: 407px" required>
                             <option value="Who is your favorite person?">Who is your favorite person?</option>
                         </select>
                     </td>
@@ -128,18 +136,18 @@
                 <tr>
                     <td>Security Answer:</td>
                     <td>
-                        <input name="securityAnswer" type="text" style="width: 223px" />
+                        <input name="securityAnswer" type="text" style="width: 223px" required/>
                     </td>
                 </tr>
                 <tr>
                     <td>Role:</td>
                     <td>
                         <label class="radio-label">
-                            <input checked="checked" name="role" type="radio" class="auto-style5" value="seller" /><span class="auto-style5">Seller
+                            <input checked="checked" name="role" type="radio" class="auto-style5" value="seller" required/><span class="auto-style5">Seller
                             </span>
                         </label>
                         <label class="radio-label">
-                            <input name="role" type="radio" class="auto-style5" value="bidder" /><span class="auto-style5">Bidder
+                            <input name="role" type="radio" class="auto-style5" value="bidder" /><span class="auto-style5" required>Bidder
                             </span>
                         </label>
                     </td>

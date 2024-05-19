@@ -110,16 +110,16 @@ if (isset($_SESSION['user_id'], $_SESSION['role'])) {
     <h1>Publish a Product</h1>
     <form action="../../handle/seller/handleAddingProduct.php" method="post" enctype="multipart/form-data">
         <label for="product_name">Product Name:</label>
-        <input type="text" name="product_name" id="product_name">
+        <input type="text" name="product_name" id="product_name" required>
 
         <label for="product_description">Product Description:</label>
-        <textarea name="product_description" id="product_description" rows="4"></textarea>
+        <textarea name="product_description" id="product_description" rows="4" required></textarea>
 
         <label for="product_minimum_bidding_price">Product Minimum Auction Price (Omani Rial):</label>
-        <input type="text" name="product_minimum_bidding_price" id="product_minimum_bidding_price">
+        <input type="text" name="product_minimum_bidding_price" id="product_minimum_bidding_price" required>
 
         <label for="product_type">Product Type:</label>
-        <select name="product_type" id="product_type">
+        <select name="product_type_id" id="product_type" required>
             <?php
             $q = $pdo->prepare('SELECT * from product_type;');
             $q->execute();
@@ -133,13 +133,13 @@ if (isset($_SESSION['user_id'], $_SESSION['role'])) {
         </select>
 
         <label for="product_image">Product Image:</label>
-        <input type="file" name="product_image" id="product_image">
+        <input type="file" name="product_image" id="product_image" required>
 
         <label for="product_start_date">Product Auction Starting Date:</label>
         <input type="date" name="product_start_date" id="product_start_date" value='<?php echo date('Y-m-d'); ?>' readonly>
 
         <label for="product_last_date">Product Auction Ending Date:</label>
-        <input type="date" name="product_last_date" id="product_last_date">
+        <input type="date" name="product_last_date" id="product_last_date" required>
 
         <input type="submit" name="submit" value="Add">
         <input type="reset" name="reset" value="CANCEL">

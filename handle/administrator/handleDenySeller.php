@@ -40,7 +40,7 @@ $query->execute();
 
 echo '<script>
 	alert("Seller Profile has been denied!");
-	window.location.href = "/Mazad/pages/seller/ViewSellerByAdmin.php";
+	window.location.href = "/Mazad/pages/administrator/A_Menu.php";
 	</script>';
 ?>
 </body>

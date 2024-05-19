@@ -74,7 +74,7 @@
 		echo 	'<td class="auto-style3">' . $product['product_minimum_bidding_price'] . '</td>';
 		echo 	'<td class="auto-style3">' . date($product['product_start_date']) . '</td>';
 		echo 	'<td class="auto-style3">' . date($product['product_last_date']) . '</td>';
-		echo 	'<td class="auto-style3"><a href=> Update'</td>';
+		echo 	'<td class="auto-style3"><a href="UpdatingProductPage.php?product_id' . $product['product_id'] . '"> Update</td>';
 
 		echo '</tr>';
 	}

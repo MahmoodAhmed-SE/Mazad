@@ -74,30 +74,24 @@
 <body>
     <div class="container">
         <h1>Forget Password</h1>
-        <form action="" method="post">
+        <form action="../handle/handleForgetingPassword.php" method="post">
             <table align="center">
                 <tr>
                     <td colspan="2">
                         <strong>Email:</strong>
-                        <input name="Text1" style="width: 180px" type="text" />
+                        <input name="email" style="width: 180px" type="text" required/>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <strong>Phone Number:</strong>
-                        <input name="Text2" style="width: 181px" type="text" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <strong>Resident Card (Please upload):</strong>
-                        <input name="File1" style="width: 305px" type="file" />
+                        <input name="phone" style="width: 181px" type="text" required/>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <strong>Security Question:</strong>
-                        <select name="Select1" style="width: 407px">
+                        <select name="question" style="width: 407px" required>
                             <option value="Who is your favorite person?">Who is your favorite person?</option>
                         </select>
                     </td>
@@ -105,12 +99,12 @@
                 <tr>
                     <td colspan="2">
                         <strong>Security Answer:</strong>
-                        <input name="Text7" type="text" style="width: 223px" />
+                        <input name="answer" type="text" style="width: 223px" required/>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input class="button" name="Submit1" type="submit" value="SUBMIT" />
+                        <input class="button" name="submit" type="submit" value="SUBMIT" />
                         <input class="button" name="Reset1" type="reset" value="CANCEL" />
                     </td>
                 </tr>
