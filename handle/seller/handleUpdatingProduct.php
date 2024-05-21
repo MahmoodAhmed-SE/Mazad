@@ -34,12 +34,11 @@ if (isset($_POST['submit'])) {
         $updated_product_minimum_bidding_price = $_POST['updated_product_minimum_bidding_price'];
 
         $updated_product_image = NULL;
-        if (isset($_FILES['updated_product_image'])) {
+        if (isset($_FILES['product_image'])) {
             require('../../services/uploadImage.php');
-            $updated_product_image = upload($_FILES['updated_product_image'], '../../uploads/product_images/');
+            $updated_product_image = upload($_FILES['product_image'], '../../uploads/product_images/');
         }
         else {
-            echo $_POST['old_product_image_path'];
             $updated_product_image = $_POST['old_product_image_path'];
         }
 
