@@ -6,15 +6,22 @@
 	$id = $_SESSION['user_id'];
 	$role = $_SESSION['role'];
 
-	require('../../services/getUser.php');
-	
+    require('../../services/getUser.php');
+            
 	$user = getUser($pdo, $id, $role);
 
 	if ($user === false) {
 		echo '<script>
-			alert("Either Your Registration is Pending or Not Registered yet!");
+			alert("Please Register first!");
+			window.location.href = "/Mazad/pages/Registration.php";
+			</script>';
+		exit();
+	} else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+		echo '<script>
+			alert("Please Wait for admin approval!");
 			window.location.href = "/Mazad/pages/HomePage.php";
 			</script>';
+		exit();
 	}
 
 }

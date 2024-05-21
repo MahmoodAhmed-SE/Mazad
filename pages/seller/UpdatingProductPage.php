@@ -10,11 +10,21 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 
     require('../../services/getUser.php');
 
+
     $user = getUser($pdo, $id, $role);
 
-    // Redirect to login page if user is not found
     if ($user === false) {
-        header('Location: /Mazad/pages/LoginPage.php');
+        echo '<script>
+            alert("Please Register first!");
+            window.location.href = "/Mazad/pages/Registration.php";
+            </script>';
+        exit();
+    } else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+        echo '<script>
+            alert("Please Wait for admin approval!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
+        exit();
     }
 
     $product_id = $_GET['product_id'];
@@ -132,7 +142,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
 <body>
     <div class="container">
         <h1>Update product:</h1>
-        <form action="../../handle/seller/handleUpdatingProduct.php" method="post">
+        <form action="../../handle/seller/handleUpdatingProduct.php" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
                     <td>Product to update:</td>
@@ -172,7 +182,8 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
                 </tr>
                 <tr>
                     <td>Updated Product Image:</td>
-                    <td><input name="product_image" type="file" value="<?php echo $product['product_image']; ?>" required></td>
+                    <td><input name="product_image" type="file"></td>
+                    <input name="old_product_image_path" type="hidden" value="<?php echo $product['product_image']; ?>">
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -182,7 +193,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
                 </tr>
             </table>
         </form>
-        <p class="back-link"><a href="./S_Menu.php">Back To Dashboard</a></p>
+        <p class="back-link"><a href="./ListOfSellerProducts.php">Back</a></p>
     </div>
 </body>
 

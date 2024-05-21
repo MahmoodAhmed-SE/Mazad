@@ -162,6 +162,7 @@ session_destroy();
         </form>
         <div class="link-container">
             <a href="../pages/HomePage.php">Homepage</a>
+            <a href="LoginPage.php">Login Here</a>
         </div>
     </div>
 </body>

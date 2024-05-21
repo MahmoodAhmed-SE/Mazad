@@ -19,9 +19,16 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role']
 
     if ($user === false) {
         echo '<script>
-            alert("Either Your Registration is Pending or Not Registered yet!");
+            alert("Please Register first!");
+            window.location.href = "/Mazad/pages/Registration.php";
+            </script>';
+        exit();
+    } else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+        echo '<script>
+            alert("Please Wait for admin approval!");
             window.location.href = "/Mazad/pages/HomePage.php";
             </script>';
+        exit();
     }
 
     $bidder_id = $_GET['bidder_id'];

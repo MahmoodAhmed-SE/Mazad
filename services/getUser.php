@@ -14,14 +14,14 @@ function getUser($pdo, $id, $role) {
 			
 		case 'seller':
 			//Preparing SELECT statement
-			$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_id = :id AND seller_status=1;");
+			$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_id = :id;");
 			
 			// Binding parameters
 			$query->bindParam(':id', $id);			    
 			break;
 		case 'bidder':
 			//Preparing SELECT statement
-			$query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_id = :id AND bidder_status=1;");
+			$query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_id = :id;");
 			
 			// Binding parameters
 			$query->bindParam(':id', $id);			    

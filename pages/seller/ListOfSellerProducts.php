@@ -1,20 +1,43 @@
 <?php
 session_start();
 
-// Redirect if user is not logged in
-if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
-    header('Location: /pages/LoginPage.php');
-    exit;
-}
+// Check if user is logged in
+if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
+    $pdo = require('../../mysql_db_connection.php');
 
-// Fetch products associated with the logged-in user
-$id = $_SESSION['user_id'];
-$pdo = require('../../mysql_db_connection.php');
-$products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id AND product_status = 1 AND bidder_id IS NULL;');
-$products_query->bindParam(':seller_id', $id);
-$products_query->execute();
-$products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+    $id = $_SESSION['user_id'];
+    $role = $_SESSION['role'];
+
+    require('../../services/getUser.php');
+
+    $user = getUser($pdo, $id, $role);
+
+    if ($user === false) {
+        echo '<script>
+            alert("Please Register first!");
+            window.location.href = "/Mazad/pages/Registration.php";
+            </script>';
+        exit();
+    } else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+        echo '<script>
+            alert("Please Wait for admin approval!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
+        exit();
+    }
+    
+    // Fetch products associated with the logged-in user
+
+    $products_query = $pdo->prepare('SELECT * FROM Products WHERE seller_id = :seller_id AND product_status = 1 AND bidder_id IS NULL;');
+    $products_query->bindParam(':seller_id', $id);
+    $products_query->execute();
+    $products = $products_query->fetchAll(PDO::FETCH_ASSOC);
+    
+} else {
+    header('Location: /Mazad/pages/LoginPage.php');
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

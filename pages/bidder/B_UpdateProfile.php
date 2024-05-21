@@ -12,7 +12,16 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
     $user = getUser($pdo, $id, $role);
 
     if ($user === false) {
-        header('Location: /Mazad/pages/LoginPage.php');
+        echo '<script>
+            alert("Please Register first!");
+            window.location.href = "/Mazad/pages/Registration.php";
+            </script>';
+        exit();
+    } else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+        echo '<script>
+            alert("Please Wait for admin approval!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
         exit();
     }
 

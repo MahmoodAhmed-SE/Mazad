@@ -11,8 +11,17 @@ if (isset($_SESSION['user_id'], $_SESSION['role'])) {
     $user = getUser($pdo, $id, $role);
 
     if ($user === false) {
-        header('Location: /Mazad/pages/LoginPage.php');
-        exit;
+        echo '<script>
+            alert("Please Register first!");
+            window.location.href = "/Mazad/pages/Registration.php";
+            </script>';
+        exit();
+    } else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+        echo '<script>
+            alert("Please Wait for admin approval!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
+        exit();
     }
 } else {
     header('Location: /Mazad/pages/LoginPage.php');
@@ -139,7 +148,7 @@ if (isset($_SESSION['user_id'], $_SESSION['role'])) {
         <input type="date" name="product_start_date" id="product_start_date" value='<?php echo date('Y-m-d'); ?>' readonly>
 
         <label for="product_last_date">Product Auction Ending Date:</label>
-        <input type="date" name="product_last_date" id="product_last_date" required>
+        <input type="date" name="product_last_date" id="product_last_date" min='<?php echo date('Y-m-d'); ?>' required>
 
         <input type="submit" name="submit" value="Add">
         <input type="reset" name="reset" value="CANCEL">

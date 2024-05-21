@@ -19,6 +19,24 @@ if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
 
     $pdo = require('../../mysql_db_connection.php');
 
+    require('../../services/getUser.php');
+
+    $user = getUser($pdo, $id, $role);
+
+    if ($user === false) {
+        echo '<script>
+            alert("Please Register first!");
+            window.location.href = "/Mazad/pages/Registration.php";
+            </script>';
+        exit();
+    } else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+        echo '<script>
+            alert("Please Wait for admin approval!");
+            window.location.href = "/Mazad/pages/HomePage.php";
+            </script>';
+        exit();
+    }
+    
     $products_query = $pdo->prepare('SELECT * FROM Products WHERE product_id = :product_id;');
     $products_query->bindParam(':product_id', $product_id);
     $products_query->execute();
@@ -138,7 +156,7 @@ if (empty($_SESSION['user_id']) || empty($_SESSION['role'])) {
             <?php endforeach; ?>
         </table>
     <?php endif; ?>
-    <p class="no-data"><a href="./S_Menu.php">Back To Dashboard</a></p>
+    <p class="no-data"><a href="./ListOfSellerProducts.php">Back</a></p>
 </div>
 </body>
 </html>

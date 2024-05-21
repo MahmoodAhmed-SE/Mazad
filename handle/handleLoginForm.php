@@ -30,7 +30,7 @@ if (isset($_POST['submitButton'])) {
 		    	
 	    case 'seller':
 			//Preparing SELECT statement
-			$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_name = :name AND seller_password = :password AND seller_status=1;");
+			$query = $pdo->prepare("SELECT * FROM Sellers WHERE seller_name = :name AND seller_password = :password;");
 			
 			// Binding parameters
 		    $query->bindParam(':name', $name);
@@ -38,7 +38,7 @@ if (isset($_POST['submitButton'])) {
 			break;
     		case 'bidder':
     			//Preparing SELECT statement
-    			$query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_name = :name AND bidder_password = :password AND bidder_status=1;");
+    			$query = $pdo->prepare("SELECT * FROM Bidders WHERE bidder_name = :name AND bidder_password = :password;");
     			
     			// Binding parameters
 			    $query->bindParam(':name', $name);
@@ -53,13 +53,20 @@ if (isset($_POST['submitButton'])) {
 		$query->execute();
 	
 		$user = $query->fetch(PDO::FETCH_ASSOC);
-		
-		
+
+    
 		if ($user === false) {
 			echo '<script>
-            alert("Either Your Registration is Pending or Not Registered yet!");
-            window.location.href = "/Mazad/pages/HomePage.php";
-            </script>';
+				alert("Please Register first!");
+				window.location.href = "/Mazad/pages/Registration.php";
+				</script>';
+			exit();
+		} else if ($role != 'admin' && $user[$role . '_status'] === 0) {
+			echo '<script>
+				alert("Please Wait for admin approval!");
+				window.location.href = "/Mazad/pages/HomePage.php";
+				</script>';
+			exit();
 		}
 		else {
 			session_start();
